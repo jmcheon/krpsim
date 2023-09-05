@@ -2,7 +2,7 @@ import re
 from Base import Base
 from Process import Process
 
-class Lexer(Base):
+class Parser(Base):
 
     def __init__(self):
         pass
@@ -99,7 +99,7 @@ class Lexer(Base):
             self.add_optimize(pair)
         return True
     
-    def check_syntax(self, input_file: object) -> bool:
+    def parse(self, input_file: object) -> bool:
         stock_section_finished = False
         process_section_finished = False
         optimize_section_finished = False
@@ -151,12 +151,3 @@ class Lexer(Base):
         else:
             print(f"Syntax check passed successfully.")
         return True
-    
-    def tokenize(self, input_file: object) -> list:
-        all_tokens = []
-        for line in input_file:
-            line = line.split("#")[0].strip()
-            tokens = line.split()
-            all_tokens.extend(tokens)
-            #is_valid_process_line(line)
-        return all_tokens

@@ -1,5 +1,5 @@
 import os, sys, argparse
-from Lexer import Lexer
+from Parser import Parser
 from Base import Base
 
 def load_file(input_filename: str) -> object:
@@ -9,26 +9,23 @@ def load_file(input_filename: str) -> object:
     input_file = open(input_filename, "r")
     return input_file
 
-
 def main():
-    parser = argparse.ArgumentParser(
+    argparser = argparse.ArgumentParser(
         description="krpsim")
-    parser.add_argument("input_filename", nargs="?",
+    argparser.add_argument("input_filename", nargs="?",
                         help="Path to the input file")
 
-    args = parser.parse_args()
+    args = argparser.parse_args()
 
     if args.input_filename is None:
-        parser.print_help()
+        argparser.print_help()
         sys.exit(1)
 
     if args.input_filename:
         base = Base()
         input_file = load_file(args.input_filename)
-        lexer = Lexer()
-        lexer.check_syntax(input_file)
-        all_tokens = lexer.tokenize(input_file)
-        #print(lexer.stock)
+        parser = Parser()
+        parser.parse(input_file)
         #print(base.stock)
         #print(base.process)
         #print(base.optimize)
