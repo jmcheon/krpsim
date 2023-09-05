@@ -77,13 +77,16 @@ def is_optimize_line_valid(line: str, stock_lst: list) -> bool:
         return False
 
     line = line[len("optimize:"):].strip()
+    if not (line.startswith("(") and line.endswith(")")):
+        return False
+
     pairs = line[1:-1].split(";")
     #print(pairs)
     #print(stock_lst)
 
     for pair in pairs:
         #print(pair)
-        if "time" == pair:
+        if pair == "time":
             continue
         if pair != "time" and pair not in stock_lst:
             return False
@@ -118,6 +121,11 @@ def check_syntax(input_file: object):
             elif is_optimize_line(line, stock_lst):
                 process_section_finished = True
                 pass
+            elif line.startswith("optimize:"):
+                process_section_finished = True
+                print(f"Syntax error in {line_number}: Invalid optimize format:")
+                print(f"\toptimize:(<stock_name>|time[;<stock_name>|time[...]])")
+                break
             else:
                 print(f"Syntax error in {line_number}: Invalid process format:")
                 print(f"\t<name>:(<need>:<qty>[;<need>:<qty>[...]]):(<result>:<qty>[;<result>:<qty>[...]]):<nb_cycle>")
