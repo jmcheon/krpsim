@@ -1,6 +1,6 @@
 import os, sys, argparse
-from lexer import Lexer
-from base import Base
+from Lexer import Lexer
+from Base import Base
 
 def load_file(input_filename: str) -> object:
     if not os.path.exists(input_filename):
@@ -28,8 +28,12 @@ def main():
         lexer = Lexer()
         lexer.check_syntax(input_file)
         all_tokens = lexer.tokenize(input_file)
-        print(lexer.stock)
-        print(base.stock)
+        #print(lexer.stock)
+        #print(base.stock)
+        #print(base.process)
+        #print(base.optimize)
+
+        print(base)
 
 if __name__ == "__main__":
     main()

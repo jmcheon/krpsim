@@ -1,6 +1,6 @@
 import re
-from base import Base
-from process import Process
+from Base import Base
+from Process import Process
 
 class Lexer(Base):
 
@@ -56,16 +56,18 @@ class Lexer(Base):
             for sub_part in sub_parts:
                 sub_sub_parts = sub_part.split(":")
                 #print(sub_sub_parts[0].strip())
+                stock_name = sub_sub_parts[0].strip()
+                stock_quantity = sub_sub_parts[1].strip()
                 if len(sub_sub_parts) != 2 \
-                    or not sub_sub_parts[0].strip() \
-                    or not sub_sub_parts[1].strip().isdigit():
+                    or not stock_name \
+                    or not stock_quantity.isdigit():
                     return False
-                if sub_sub_parts[0].strip() not in self.stock:
-                    self.add_stock(sub_sub_parts[0].strip(), 0)
+                if stock_name not in self.stock:
+                    self.add_stock(stock_name, 0)
             return True
-        process = Process(name, need[1:-1], result[1:-1], nb_cycle)
+        #process = Process(name, need[1:-1], result[1:-1], nb_cycle)
         #print(f'process: {process.name} {process.need}, {process.result} {process.nb_cycle}')
-        print(process)
+        #print(process)
     
         #print(name)
         if (name and
@@ -73,6 +75,8 @@ class Lexer(Base):
             result.startswith("(") and result.endswith(")") and is_part_valid(result[1:-1]) and
             nb_cycle.isdigit()
         ):
+            process = Process(name, need[1:-1], result[1:-1], nb_cycle)
+            self.add_process(name, process)
             return True
         return False
     
@@ -90,10 +94,9 @@ class Lexer(Base):
     
         for pair in pairs:
             #print(pair)
-            if pair == "time":
-                continue
             if pair != "time" and pair not in self.stock:
                 return False
+            self.add_optimize(pair)
         return True
     
     def check_syntax(self, input_file: object) -> bool:
