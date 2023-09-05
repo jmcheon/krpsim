@@ -17,7 +17,7 @@ class Base:
 
     def add_optimize(self, optimize_name: str):
         if not isinstance(optimize_name, str):
-            raise TypeError(f"Invalid type for process.")
+            raise TypeError(f"Invalid type for optimize.")
         if optimize_name not in self.optimize:
             self.optimize.append(optimize_name)
 
