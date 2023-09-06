@@ -1,11 +1,10 @@
 import re
-from Base import Base
 from Process import Process
 
-class Parser(Base):
+class Parser:
 
-    def __init__(self):
-        pass
+    def __init__(self, base):
+        self.base = base
 
     def is_commentary_line(self, line: str) -> bool:
         return line.startswith("#")
@@ -30,8 +29,8 @@ class Parser(Base):
         stock_name = parts[0].strip()
         quantity = parts[1]. strip()
     
-        if stock_name not in self.stock:
-            self.add_stock(stock_name, int(quantity))
+        if stock_name not in self.base.stock:
+            self.base.add_stock(stock_name, int(quantity))
         if stock_name and quantity.isdigit():
             return True
         return False
@@ -62,8 +61,8 @@ class Parser(Base):
                     or not stock_name \
                     or not stock_quantity.isdigit():
                     return False
-                if stock_name not in self.stock:
-                    self.add_stock(stock_name, 0)
+                if stock_name not in self.base.stock:
+                    self.base.add_stock(stock_name, 0)
             return True
         #process = Process(name, need[1:-1], result[1:-1], nb_cycle)
         #print(f'process: {process.name} {process.need}, {process.result} {process.nb_cycle}')
@@ -76,7 +75,7 @@ class Parser(Base):
             nb_cycle.isdigit()
         ):
             process = Process(name, need[1:-1], result[1:-1], nb_cycle)
-            self.add_process(name, process)
+            self.base.add_process(name, process)
             return True
         return False
     
@@ -94,9 +93,9 @@ class Parser(Base):
     
         for pair in pairs:
             #print(pair)
-            if pair != "time" and pair not in self.stock:
+            if pair != "time" and pair not in self.base.stock:
                 return False
-            self.add_optimize(pair)
+            self.base.add_optimize(pair)
         return True
     
     def parse(self, input_file: object) -> bool:
@@ -151,3 +150,24 @@ class Parser(Base):
         else:
             print(f"Syntax check passed successfully.")
         return True
+
+    def __str__(self):
+        stock_str = ""
+        process_str = ""
+        optimize_str = "optimize:("
+
+        for key, value in self.base.stock.items():
+            if value > 0:
+                stock_str += key + ":" + str(value) + "\n"
+
+        for key, value in self.base.process.items():
+            process_str += value.__str__() + "\n"
+
+        optimize_len = len(self.base.optimize)
+        for index, elem in enumerate(self.base.optimize, start=1):
+            optimize_str += elem
+            if index < optimize_len:
+                optimize_str += ";"
+        optimize_str += ")"
+
+        return f"{stock_str}\n{process_str}\n{optimize_str}" 

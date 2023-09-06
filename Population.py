@@ -1,18 +1,20 @@
-from Base import Base
 from Individual import Individual
 
-class Population(Base):
+class Population:
 
-    def __init__(self, population_size):
+    def __init__(self, population_size, base):
         self.population = []
         self.pool = []
         self.population_size = population_size
+        self.stock = base.stock.copy()
+        self.process = base.process.copy()
+        self.optimize = base.optimize.copy()
 
     # Generate the initial population of individuals (schedules)
     def generate_population(self):
     
         for _ in range(self.population_size):
-            individual = Individual() 
+            individual = Individual(self.stock, self.process, self.optimize) 
             self.population.append(individual.generate_individual())
     
         return self.population

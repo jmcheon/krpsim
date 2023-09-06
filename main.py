@@ -25,7 +25,7 @@ def main():
     if args.input_filename:
         base = Base()
         input_file = load_file(args.input_filename)
-        parser = Parser()
+        parser = Parser(base)
         parser.parse(input_file)
         #print(base.stock)
         #print(base.process)
@@ -36,7 +36,7 @@ def main():
 
     # Example usage
     population_size = 10
-    population = Population(population_size)
+    population = Population(population_size, base)
     initial_population = population.generate_population()
     
     print("\nInitial Population:\n")

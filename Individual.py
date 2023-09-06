@@ -1,12 +1,13 @@
 import random
-from Base import Base
-from Process import Process
 
-class Individual(Base):
+class Individual:
 
-    def __init__(self):
+    def __init__(self, stock, process, optimize):
         self.individual = []
         self.fitness = 0
+        self.stock = stock
+        self.process = process
+        self.optimize = optimize
 
     # Generate an individual (schedule) randomly
     def generate_individual(self):
