@@ -1,7 +1,7 @@
 import os, sys, argparse
 from Parser import Parser
 from Base import Base
-from Population import Population 
+from Population import Population
 
 def load_file(input_filename: str) -> object:
     if not os.path.exists(input_filename):
@@ -41,7 +41,8 @@ def main():
     
     print("\nInitial Population:\n")
     for i, individual in enumerate(initial_population):
-       print(f"Individual {i+1}: {individual}")
-
+       print(f"Individual {i+1}: {individual.individual}")
+       individual.calculate_fitness()
+       print(individual.fitness)
 if __name__ == "__main__":
     main()
