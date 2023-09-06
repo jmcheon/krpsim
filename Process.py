@@ -1,10 +1,10 @@
 
 class Process:
-    def __init__(self, name, need, result, nb_cycle):
+    def __init__(self, name, need, result, delay):
         self.name = name
         self.need = {}
         self.result = {} 
-        self.nb_cycle = nb_cycle
+        self.delay = delay
 
         self.add_part(self.need, need)
         self.add_part(self.result, result)
@@ -33,4 +33,4 @@ class Process:
         return part_str
 
     def __str__(self):
-        return f"{self.name}:({self.reform_part_string(self.need)}):({self.reform_part_string(self.result)}):{self.nb_cycle}"
+        return f"{self.name}:({self.reform_part_string(self.need)}):({self.reform_part_string(self.result)}):{self.delay}"
