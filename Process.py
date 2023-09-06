@@ -20,14 +20,14 @@ class Process:
                 or not part_name \
                 or not part_quantity.isdigit():
                 return False
-            to_dict[part_name] = part_quantity
+            to_dict[part_name] = int(part_quantity)
         return True
 
     def reform_part_string(self, from_dict: dict) -> str:
         part_str = ""
         part_len = len(from_dict.items())
         for index, (key, value) in enumerate(from_dict.items(), start=1):
-            part_str += key + ":" + value
+            part_str += key + ":" + str(value)
             if part_len >= 2 and index != part_len:
                 part_str += ";"
         return part_str
