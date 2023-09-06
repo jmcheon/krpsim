@@ -36,8 +36,8 @@ def main():
 
     # Example usage
     population_size = 10
-    population = Population(population_size, base)
-    initial_population = population.generate_population()
+    population = Population(population_size)
+    initial_population = population.generate_population(base)
     
     print("\nInitial Population:\n")
     for i, individual in enumerate(initial_population):

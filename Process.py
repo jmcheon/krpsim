@@ -2,12 +2,20 @@
 class Process:
     def __init__(self, name, need, result, delay):
         self.name = name
-        self.need = {}
-        self.result = {} 
+        self._need = {}
+        self._result = {} 
         self.delay = delay
 
-        self.add_part(self.need, need)
-        self.add_part(self.result, result)
+        self.add_part(self._need, need)
+        self.add_part(self._result, result)
+
+    @property
+    def need(self):
+        return self._need
+
+    @property
+    def result(self):
+        return self._result
 
     def add_part(self, to_dict: dict, part: str) -> bool:
         sub_parts = part.split(";")

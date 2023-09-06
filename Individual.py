@@ -2,12 +2,12 @@ import random
 
 class Individual:
 
-    def __init__(self, stock, process, optimize):
+    def __init__(self, base):
         self.individual = []
         self.fitness = 0
-        self.stock = stock
-        self.process = process
-        self.optimize = optimize
+        self.stock = base.stock.copy()
+        self.process = base.process.copy()
+        self.optimize = base.optimize.copy()
 
     # Generate an individual (schedule) randomly
     def generate_individual(self):

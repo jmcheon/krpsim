@@ -1,9 +1,23 @@
 from Process import Process
 
 class Base:
-    stock = {}
-    process = {}
-    optimize = []
+
+    def __init__(self):
+        self._stock = {}
+        self._process = {}
+        self._optimize = []
+
+    @property
+    def stock(self):
+        return self._stock
+
+    @property
+    def process(self):
+        return self._process
+
+    @property
+    def optimize(self):
+        return self._optimize
 
     def add_stock(self, stock_name: str, quantity: int):
         if not isinstance(stock_name, str) or not isinstance(quantity, int):
