@@ -37,7 +37,7 @@ class Individual:
         }
 
         # Initialize stock quantities and time
-        stocks = {'euro': 10}
+        stocks = self.stock# {'euro': 10}
         time = 0
 
         # Execute schedule and update stock quantities and time

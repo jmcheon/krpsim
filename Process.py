@@ -7,7 +7,8 @@ class Process:
         self.delay = delay
 
         self.add_part(self._need, need)
-        self.add_part(self._result, result)
+        if len(result) != 0:
+            self.add_part(self._result, result)
 
     @property
     def need(self):

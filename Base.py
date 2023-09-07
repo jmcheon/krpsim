@@ -1,4 +1,6 @@
 from Process import Process
+import networkx as nx
+import matplotlib.pyplot as plt
 
 class Base:
 
@@ -6,6 +8,7 @@ class Base:
         self._stock = {}
         self._process = {}
         self._optimize = []
+        self.graph = nx.DiGraph()
 
     @property
     def stock(self):
@@ -18,6 +21,47 @@ class Base:
     @property
     def optimize(self):
         return self._optimize
+
+    def find_process(self, key):
+        process_lst = []
+        for process in self.process.values():
+            #print('curr process:', process.name, 'key:', key)
+            for pro in self.process.values():
+                #print(pro.need.keys())
+                #if key in pro.need.keys() and len(pro.need.keys()) == 1 and pro != process:
+                if key in pro.need.keys() and pro != process:
+                    process_lst.append(pro)
+                    #print('return:', pro.name)
+        return process_lst
+
+    def create_graph(self):
+        for process in self.process.values():
+            process_name, needs, results = process.name, process.need, process.result
+            self.graph.add_node(process_name)
+            #print(process.result.keys())
+            for resource, qty in needs.items():
+                for key in process.result.keys():
+                    #print('key:', key, process.need.keys())
+                    process_lst = self.find_process(key)
+                    #if key in process.need.keys():
+                    for pro in process_lst:
+                        if pro != None:
+                            #print('name:', pro.name)
+                            self.graph.add_edge(process_name, pro.name)
+        return self.graph
+    
+    def visualize_graph(self, font_color='black', font_weight='bold', node_size=1500, legend=None):
+        pos = nx.circular_layout(self.graph)
+        nx.draw(self.graph, pos, with_labels=True, node_color='Orange', font_color=font_color, font_weight=font_weight, node_size=node_size)
+        edge_labels = {(u,v): f"{self.process[u].result}" for u,v in self.graph.edges()}
+        nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
+    
+        if legend:
+            for label, color in legend.items():
+                plt.scatter([], [], c=color, label=label, s=node_size)
+            plt.legend(scatterpoints=1, frameon=False, labelspacing=1.5)
+        plt.show()
+
 
     def add_stock(self, stock_name: str, quantity: int):
         if not isinstance(stock_name, str) or not isinstance(quantity, int):

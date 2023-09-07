@@ -67,9 +67,21 @@ class Parser:
         #process = Process(name, need[1:-1], result[1:-1], nb_cycle)
         #print(f'process: {process.name} {process.need}, {process.result} {process.nb_cycle}')
         #print(process)
+
+        if len(result) == 0:
+            print(f'result: {result}')
+            if (name and
+                need.startswith("(") and need.endswith(")") and is_part_valid(need[1:-1]) and
+                nb_cycle.isdigit()
+            ):
+                process = Process(name, need[1:-1], result[1:-1], nb_cycle)
+                self.base.add_process(name, process)
+                #print(process.need, process.result)
+                return True
+            return False
     
         #print(name)
-        if (name and
+        elif (name and
             need.startswith("(") and need.endswith(")") and is_part_valid(need[1:-1]) and
             result.startswith("(") and result.endswith(")") and is_part_valid(result[1:-1]) and
             nb_cycle.isdigit()

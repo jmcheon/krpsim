@@ -1,4 +1,6 @@
 import os, sys, argparse
+import networkx as nx
+import matplotlib.pyplot as plt
 from Parser import Parser
 from Base import Base
 from Population import Population
@@ -44,5 +46,9 @@ def main():
        print(f"Individual {i+1}: {individual.individual}")
        individual.calculate_fitness()
        print(individual.fitness)
+
+    base.create_graph()
+    base.visualize_graph()
+
 if __name__ == "__main__":
     main()
