@@ -10,6 +10,13 @@ class Base:
         self._optimize = []
         self.graph = nx.DiGraph()
 
+    def set(self, stock, process, optimize, graph):
+        self.stock(stock)
+        self.process(process)
+        self.optimize(optimize)
+        #self.graph(graph)
+        self.graph = graph
+
     @property
     def stock(self):
         return self._stock
@@ -21,6 +28,31 @@ class Base:
     @property
     def optimize(self):
         return self._optimize
+
+    @stock.setter
+    def stock(self, stock):
+        self.stock = stock
+
+    @process.setter
+    def process(self, process):
+        self.process = process
+
+    @optimize.setter
+    def optimize(self, optimize):
+        self.optimize = optimize 
+
+    def is_stock_satisfied(self, stock: str, quantity: int) -> bool:
+        if self.stock[stock] >= quantity:
+            return True
+        return False
+
+    def is_need_satisfied(self, process: Process) -> bool:
+        for stock, quantity in process.need.items():
+            #print(f'{process.name} stock: {stock}, qty: {quantity}')
+            ret = self.is_stock_satisfied(stock, quantity)
+            if ret == False:
+                return False
+        return True
 
     def find_process(self, key):
         process_lst = []
@@ -39,22 +71,22 @@ class Base:
             process_name, needs, results = process.name, process.need, process.result
             self.graph.add_node(process_name)
             #print(process.result.keys())
-            for resource, qty in needs.items():
-                for key in process.result.keys():
-                    #print('key:', key, process.need.keys())
-                    process_lst = self.find_process(key)
-                    #if key in process.need.keys():
-                    for pro in process_lst:
-                        if pro != None:
-                            #print('name:', pro.name)
-                            self.graph.add_edge(process_name, pro.name)
+            self.is_need_satisfied(process)
+            for key in process.result.keys():
+                #print('key:', key, process.need.keys())
+                process_lst = self.find_process(key)
+                #if key in process.need.keys():
+                for pro in process_lst:
+                    if pro != None:
+                        #print('name:', pro.name)
+                        self.graph.add_edge(process_name, pro.name)
         return self.graph
     
     def visualize_graph(self, font_color='black', font_weight='bold', node_size=1500, legend=None):
         pos = nx.circular_layout(self.graph)
         nx.draw(self.graph, pos, with_labels=True, node_color='Orange', font_color=font_color, font_weight=font_weight, node_size=node_size)
         edge_labels = {(u,v): f"{self.process[u].result}" for u,v in self.graph.edges()}
-        nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
+        #nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
     
         if legend:
             for label, color in legend.items():
