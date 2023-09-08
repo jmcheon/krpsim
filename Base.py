@@ -71,6 +71,14 @@ class Base:
                 stock_lst.append(stock)
         return stock_lst
 
+    def get_available_processes(self):
+        process_lst = []
+        for process in self.process.values():
+            #stock_lst = self.get_available_stocks()
+            if self.is_need_satisfied(process):
+                process_lst.append(process)
+        return process_lst
+
     def is_stock_satisfied(self, stock: str, quantity: int) -> bool:
         if self.stock[stock] >= quantity:
             return True
@@ -84,35 +92,54 @@ class Base:
                 return False
         return True
 
-    def find_process(self, key):
+    def generate_walk(self):
+        walk = []
+        process_lst = self.get_available_processes()
+        process_names = list(process_lst.keys())
+        pass
+
+    def find_connecting_process(self, process):
         process_lst = []
-        for process in self.process.values():
-            #print('curr process:', process.name, 'key:', key)
-            for pro in self.process.values():
-                #print(pro.need.keys())
-                if key in pro.need.keys() and len(pro.need.keys()) == 1 and pro != process:
-                # if key in pro.need.keys() and pro != process:
-                    process_lst.append(pro)
-                    #print('return:', pro.name)
+        for pro in self.process.values():
+            #print(pro.need.keys())
+            if process.result.keys() == pro.need.keys() and pro != process:
+            #if process.result.items() == pro.need.items() and pro != process:
+                process_lst.append(pro)
+                #print('return:', pro.name)
         return process_lst
 
     def create_graph(self):
         self.graph.add_node('start')
+        #for process in self.process.values():
+        #    self.graph.add_node(process.name)
+
         stock_lst = self.get_available_stocks()
-        #print(stock_lst)
+        print('avaiable stocks:', stock_lst)
+        process_lst = self.get_available_processes()
+        print('avaiable processes:', process_lst)
+        #for process in process_lst:
+        for process in self.process.values():
+            self.graph.add_edge('start', process.name)
+            self.graph.add_edge(process.name, 'start')
+
+
+
+        #self.is_need_satisfied(process)
+
+
         for process in self.process.values():
             process_name, needs, results = process.name, process.need, process.result
             self.graph.add_node(process_name)
             #print(process.result.keys())
             self.is_need_satisfied(process)
-            for key in process.result.keys():
-                #print('key:', key, process.need.keys())
-                process_lst = self.find_process(key)
-                #if key in process.need.keys():
-                for pro in process_lst:
-                    if pro != None:
-                        #print('name:', pro.name)
-                        self.graph.add_edge(process_name, pro.name)
+            #for key in process.result.keys():
+            #print('key:', key, process.need.keys())
+            process_lst = self.find_connecting_process(process)
+            #if key in process.need.keys():
+            for pro in process_lst:
+                if pro != None:
+                    #print('name:', pro.name)
+                    self.graph.add_edge(process_name, pro.name)
         return self.graph
     
     def visualize_graph(self, font_color='black', font_weight='bold', node_size=1500, legend=None):
@@ -120,7 +147,7 @@ class Base:
         pos = nx.circular_layout(self.graph)
         nx.draw(self.graph, pos, with_labels=True, node_color=node_color, font_color=font_color, font_weight=font_weight, node_size=node_size)
 
-        edge_labels = {(u,v): f"{self.process[u].result}" for u,v in self.graph.edges()}
+        #edge_labels = {(u,v): f"{self.process[u].result}" for u,v in self.graph.edges()}
         #nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
     
         if legend:
