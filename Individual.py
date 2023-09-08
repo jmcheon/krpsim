@@ -53,15 +53,15 @@ class Individual:
 
     def calculate_fitness(self):
         # Define process durations and costs
-        process_durations = {
-            'achat_materiel': 10,
-            'realisation_produit': 30,
-            'livraison': 20
-        }
+        process_durations = {}
+        for process in self.process:
+            process_durations[process] = int(self.process[process].delay)
+
 
         # Initialize stock quantities and time
         stocks = self.base.stock# {'euro': 10}
         time = 0
+
 
         # Execute schedule and update stock quantities and time
         for process_name, needs in self.individual:

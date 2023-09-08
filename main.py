@@ -43,7 +43,7 @@ def main():
     population_size = 10
     population = Population(population_size)
     initial_population = population.generate_population(base)
-    
+
     print("\nInitial Population:\n")
     for i, individual in enumerate(initial_population):
        print(f"Individual {i+1}: {individual.individual}")
