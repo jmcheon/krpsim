@@ -1,4 +1,5 @@
 from Process import Process
+import copy
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -8,14 +9,13 @@ class Base:
         self._stock = {}
         self._process = {}
         self._optimize = []
-        self.graph = nx.DiGraph()
+        self._graph = nx.DiGraph()
 
-    def set(self, stock, process, optimize, graph):
+    def set_attributes(self, stock, process, optimize, graph):
         self.stock(stock)
         self.process(process)
         self.optimize(optimize)
-        #self.graph(graph)
-        self.graph = graph
+        self.graph(graph)
 
     @property
     def stock(self):
@@ -29,17 +29,47 @@ class Base:
     def optimize(self):
         return self._optimize
 
+    @property
+    def graph(self):
+        return self._graph
+
     @stock.setter
     def stock(self, stock):
-        self.stock = stock
+        if isinstance(stock, dict):
+            self._stock = stock
+        else:
+            raise ValueError('Stock must be a dictionary')
 
     @process.setter
     def process(self, process):
-        self.process = process
+        if isinstance(process, dict):
+            self._process = process
+        else:
+            raise ValueError('Process must be a dictionary')
 
     @optimize.setter
     def optimize(self, optimize):
-        self.optimize = optimize 
+        if isinstance(optimize, list):
+            self._optimize = optimize 
+        else:
+            raise ValueError('Optimize must be a list')
+
+    @graph.setter
+    def graph(self, graph):
+        if isinstance(graph, nx.DiGraph):
+            self._graph = graph 
+        else:
+            raise ValueError('Gragph must be an instance of networkx.DiGraph')
+
+    def copy(self):
+        return copy.copy(self)
+
+    def get_available_stocks(self):
+        stock_lst = []
+        for stock, quantity in self.stock.items():
+            if quantity > 0:
+                stock_lst.append(stock)
+        return stock_lst
 
     def is_stock_satisfied(self, stock: str, quantity: int) -> bool:
         if self.stock[stock] >= quantity:
@@ -60,13 +90,16 @@ class Base:
             #print('curr process:', process.name, 'key:', key)
             for pro in self.process.values():
                 #print(pro.need.keys())
-                #if key in pro.need.keys() and len(pro.need.keys()) == 1 and pro != process:
-                if key in pro.need.keys() and pro != process:
+                if key in pro.need.keys() and len(pro.need.keys()) == 1 and pro != process:
+                # if key in pro.need.keys() and pro != process:
                     process_lst.append(pro)
                     #print('return:', pro.name)
         return process_lst
 
     def create_graph(self):
+        self.graph.add_node('start')
+        stock_lst = self.get_available_stocks()
+        #print(stock_lst)
         for process in self.process.values():
             process_name, needs, results = process.name, process.need, process.result
             self.graph.add_node(process_name)
@@ -83,8 +116,10 @@ class Base:
         return self.graph
     
     def visualize_graph(self, font_color='black', font_weight='bold', node_size=1500, legend=None):
+        node_color = ['green' if node == 'start' else 'red' if node == 'end' else 'Orange' for node in self.graph.nodes()]
         pos = nx.circular_layout(self.graph)
-        nx.draw(self.graph, pos, with_labels=True, node_color='Orange', font_color=font_color, font_weight=font_weight, node_size=node_size)
+        nx.draw(self.graph, pos, with_labels=True, node_color=node_color, font_color=font_color, font_weight=font_weight, node_size=node_size)
+
         edge_labels = {(u,v): f"{self.process[u].result}" for u,v in self.graph.edges()}
         #nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
     
