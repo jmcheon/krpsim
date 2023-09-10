@@ -5,9 +5,19 @@ class Individual:
     def __init__(self, base):
         self.individual = []
         self.fitness = 0
-        self.stock = base.stock.copy()
-        self.process = base.process.copy()
-        self.optimize = base.optimize.copy()
+        self.base = base.copy()
+
+    def generate_indi(self):
+        pop = []
+
+        while len(pop) < 1:
+            self.individual = self.base.generate_walk()
+            #self.base.print_stocks()
+            self.base.stock = self.base.initial_stock
+            if self.individual != None and len(self.individual) != 0:
+                pop.append(self.individual)
+        #print(pop) # for debugging
+        return self
 
     # Generate an individual (schedule) randomly
     def generate_individual(self) -> 'Individual':
@@ -37,7 +47,7 @@ class Individual:
         }
 
         # Initialize stock quantities and time
-        stocks = self.stock# {'euro': 10}
+        stocks = self.base.stock# {'euro': 10}
         time = 0
 
         # Execute schedule and update stock quantities and time

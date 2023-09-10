@@ -29,6 +29,9 @@ def main():
         input_file = load_file(args.input_filename)
         parser = Parser(base)
         parser.parse(input_file)
+        base.initial_stock = base.stock
+        base.print_initial_stocks()
+        #base.print_stocks()
         #print(base.stock)
         #print(base.process)
         #print(base.optimize)
@@ -43,8 +46,8 @@ def main():
     
     print("\nInitial Population:\n")
     for i, individual in enumerate(initial_population):
-       #print(f"Individual {i+1}: {individual.individual}")
-       individual.calculate_fitness()
+       print(f"Individual {i+1}: {individual.individual}")
+       #individual.calculate_fitness()
        #print(individual.fitness)
 
     base.create_graph()

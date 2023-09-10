@@ -12,7 +12,8 @@ class Population:
     
         for _ in range(self.population_size):
             individual = Individual(base) 
-            self.population.append(individual.generate_individual())
+            #self.population.append(individual.generate_individual())
+            self.population.append(individual.generate_indi())
     
         return self.population
 

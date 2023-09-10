@@ -1,21 +1,28 @@
 from Process import Process
-import copy
+import copy, random
 import networkx as nx
 import matplotlib.pyplot as plt
 
 class Base:
 
     def __init__(self):
+        #print("Base init()")
+        self._initial_stock = {}
         self._stock = {}
         self._process = {}
         self._optimize = []
         self._graph = nx.DiGraph()
 
-    def set_attributes(self, stock, process, optimize, graph):
-        self.stock(stock)
-        self.process(process)
-        self.optimize(optimize)
-        self.graph(graph)
+    def set_attributes(self, initial_stock, stock, process, optimize, graph):
+        self.initial_stock = dict(initial_stock)
+        self.stock = dict(stock)
+        self.process = dict(process)
+        self.optimize = list(optimize)
+        self.graph = (graph)
+
+    @property
+    def initial_stock(self):
+        return self._initial_stock
 
     @property
     def stock(self):
@@ -33,24 +40,32 @@ class Base:
     def graph(self):
         return self._graph
 
+    @initial_stock.setter
+    def initial_stock(self, stock):
+        #print("setting initial stock")
+        if isinstance(stock, dict):
+            self._initial_stock = dict(stock)
+        else:
+            raise ValueError('Stock must be a dictionary')
+
     @stock.setter
     def stock(self, stock):
         if isinstance(stock, dict):
-            self._stock = stock
+            self._stock = dict(stock)
         else:
             raise ValueError('Stock must be a dictionary')
 
     @process.setter
     def process(self, process):
         if isinstance(process, dict):
-            self._process = process
+            self._process = dict(process)
         else:
             raise ValueError('Process must be a dictionary')
 
     @optimize.setter
     def optimize(self, optimize):
         if isinstance(optimize, list):
-            self._optimize = optimize 
+            self._optimize = list(optimize)
         else:
             raise ValueError('Optimize must be a list')
 
@@ -64,19 +79,31 @@ class Base:
     def copy(self):
         return copy.copy(self)
 
-    def get_available_stocks(self):
+    def print_initial_stocks(self):
+        print('---initial stocks---')
+        for stock, quantity in self.initial_stock.items():
+            print(f'{stock}:{quantity}')
+        print('--------------------')
+
+    def print_stocks(self):
+        print('--------------')
+        for stock, quantity in self.stock.items():
+            print(f'{stock}:{quantity}')
+        print('--------------')
+
+    def get_available_stocks(self) -> list:
         stock_lst = []
         for stock, quantity in self.stock.items():
             if quantity > 0:
                 stock_lst.append(stock)
         return stock_lst
 
-    def get_available_processes(self):
+    def get_available_processes(self) -> list:
         process_lst = []
         for process in self.process.values():
             #stock_lst = self.get_available_stocks()
             if self.is_need_satisfied(process):
-                process_lst.append(process)
+                process_lst.append(process.name)
         return process_lst
 
     def is_stock_satisfied(self, stock: str, quantity: int) -> bool:
@@ -92,11 +119,44 @@ class Base:
                 return False
         return True
 
-    def generate_walk(self):
+    def is_optimized(self) -> bool:
+        #self.print_stocks()
+        for stock in self.optimize:
+            if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
+                return True
+        return False
+
+    def run_process(self, process: Process) -> bool:
+        need_dict = process.need
+        #print(need_dict)
+        for stock, quantity in need_dict.items():
+            #if self.is_stock_available(stock, -quantity):
+            if self.is_stock_satisfied(stock, quantity):
+                self.stock[stock] -= quantity
+            else:
+                return False
+
+
+        result_dict = process.result
+        #print(result_dict)
+        for stock, quantity in result_dict.items():
+            self.stock[stock] += quantity
+        #self.print_stocks()
+        return True
+
+    def generate_walk(self) -> list:
         walk = []
-        process_lst = self.get_available_processes()
-        process_names = list(process_lst.keys())
-        pass
+        while self.is_optimized() == False:
+            process_lst = self.get_available_processes()
+            if len(process_lst) == 0:
+                #return None
+                return walk
+            v = random.choice(process_lst)
+            if self.run_process(self.process[v]):
+                #print(v)
+                walk.append(v)
+        #print('walk:', walk)
+        return walk
 
     def find_connecting_process(self, process):
         process_lst = []
@@ -110,28 +170,15 @@ class Base:
 
     def create_graph(self):
         self.graph.add_node('start')
-        #for process in self.process.values():
-        #    self.graph.add_node(process.name)
-
-        stock_lst = self.get_available_stocks()
-        print('avaiable stocks:', stock_lst)
-        process_lst = self.get_available_processes()
-        print('avaiable processes:', process_lst)
-        #for process in process_lst:
         for process in self.process.values():
             self.graph.add_edge('start', process.name)
             self.graph.add_edge(process.name, 'start')
-
-
-
-        #self.is_need_satisfied(process)
-
 
         for process in self.process.values():
             process_name, needs, results = process.name, process.need, process.result
             self.graph.add_node(process_name)
             #print(process.result.keys())
-            self.is_need_satisfied(process)
+            #self.is_need_satisfied(process)
             #for key in process.result.keys():
             #print('key:', key, process.need.keys())
             process_lst = self.find_connecting_process(process)
