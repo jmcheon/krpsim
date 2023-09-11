@@ -6,6 +6,18 @@ class Individual:
         self.individual = []
         self.fitness = 0
         self.base = base.copy()
+        self.stock = {}
+
+    @property
+    def stock(self):
+        return self._stock
+
+    @stock.setter
+    def stock(self, stock):
+        if isinstance(stock, dict):
+            self._stock = dict(stock)
+        else:
+            raise ValueError('Stock must be a dictionary')
 
     def generate_indi(self):
         pop = []
@@ -13,6 +25,7 @@ class Individual:
         while len(pop) < 1:
             self.individual = self.base.generate_walk()
             #self.base.print_stocks()
+            self.stock = self.base.stock
             self.base.stock = self.base.initial_stock
             if self.individual != None and len(self.individual) != 0:
                 pop.append(self.individual)

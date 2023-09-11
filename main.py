@@ -50,8 +50,8 @@ def main():
        #individual.calculate_fitness()
        #print(individual.fitness)
 
-    base.create_graph()
-    base.visualize_graph()
+    # base.create_graph()
+    # base.visualize_graph()
 
 if __name__ == "__main__":
     main()
