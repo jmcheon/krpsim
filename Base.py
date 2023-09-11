@@ -1,12 +1,14 @@
 from Process import Process
-import copy, random
+import copy
+import random
 import networkx as nx
 import matplotlib.pyplot as plt
+
 
 class Base:
 
     def __init__(self):
-        #print("Base init()")
+        # print("Base init()")
         self._initial_stock = {}
         self._stock = {}
         self._process = {}
@@ -42,7 +44,7 @@ class Base:
 
     @initial_stock.setter
     def initial_stock(self, stock):
-        #print("setting initial stock")
+        # print("setting initial stock")
         if isinstance(stock, dict):
             self._initial_stock = dict(stock)
         else:
@@ -72,7 +74,7 @@ class Base:
     @graph.setter
     def graph(self, graph):
         if isinstance(graph, nx.DiGraph):
-            self._graph = graph 
+            self._graph = graph
         else:
             raise ValueError('Gragph must be an instance of networkx.DiGraph')
 
@@ -101,7 +103,7 @@ class Base:
     def get_available_processes(self) -> list:
         process_lst = []
         for process in self.process.values():
-            #stock_lst = self.get_available_stocks()
+            # stock_lst = self.get_available_stocks()
             if self.is_need_satisfied(process):
                 process_lst.append(process.name)
         return process_lst
@@ -113,14 +115,14 @@ class Base:
 
     def is_need_satisfied(self, process: Process) -> bool:
         for stock, quantity in process.need.items():
-            #print(f'{process.name} stock: {stock}, qty: {quantity}')
+            # print(f'{process.name} stock: {stock}, qty: {quantity}')
             ret = self.is_stock_satisfied(stock, quantity)
             if ret == False:
                 return False
         return True
 
     def is_optimized(self) -> bool:
-        #self.print_stocks()
+        # self.print_stocks()
         for stock in self.optimize:
             if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
                 return True
@@ -128,20 +130,19 @@ class Base:
 
     def run_process(self, process: Process) -> bool:
         need_dict = process.need
-        #print(need_dict)
+        # print(need_dict)
         for stock, quantity in need_dict.items():
-            #if self.is_stock_available(stock, -quantity):
+            # if self.is_stock_available(stock, -quantity):
             if self.is_stock_satisfied(stock, quantity):
                 self.stock[stock] -= quantity
             else:
                 return False
 
-
         result_dict = process.result
-        #print(result_dict)
+        # print(result_dict)
         for stock, quantity in result_dict.items():
             self.stock[stock] += quantity
-        #self.print_stocks()
+        # self.print_stocks()
         return True
 
     def generate_walk(self) -> list:
@@ -149,23 +150,23 @@ class Base:
         while self.is_optimized() == False:
             process_lst = self.get_available_processes()
             if len(process_lst) == 0:
-                #return None
+                # return None
                 return walk
             v = random.choice(process_lst)
             if self.run_process(self.process[v]):
-                #print(v)
+                # print(v)
                 walk.append(v)
-        #print('walk:', walk)
+        # print('walk:', walk)
         return walk
 
     def find_connecting_process(self, process):
         process_lst = []
         for pro in self.process.values():
-            #print(pro.need.keys())
+            # print(pro.need.keys())
             if process.result.keys() == pro.need.keys() and pro != process:
-            #if process.result.items() == pro.need.items() and pro != process:
+                # if process.result.items() == pro.need.items() and pro != process:
                 process_lst.append(pro)
-                #print('return:', pro.name)
+                # print('return:', pro.name)
         return process_lst
 
     def create_graph(self):
@@ -177,32 +178,33 @@ class Base:
         for process in self.process.values():
             process_name, needs, results = process.name, process.need, process.result
             self.graph.add_node(process_name)
-            #print(process.result.keys())
-            #self.is_need_satisfied(process)
-            #for key in process.result.keys():
-            #print('key:', key, process.need.keys())
+            # print(process.result.keys())
+            # self.is_need_satisfied(process)
+            # for key in process.result.keys():
+            # print('key:', key, process.need.keys())
             process_lst = self.find_connecting_process(process)
-            #if key in process.need.keys():
+            # if key in process.need.keys():
             for pro in process_lst:
                 if pro != None:
-                    #print('name:', pro.name)
+                    # print('name:', pro.name)
                     self.graph.add_edge(process_name, pro.name)
         return self.graph
-    
-    def visualize_graph(self, font_color='black', font_weight='bold', node_size=1500, legend=None):
-        node_color = ['green' if node == 'start' else 'red' if node == 'end' else 'Orange' for node in self.graph.nodes()]
-        pos = nx.circular_layout(self.graph)
-        nx.draw(self.graph, pos, with_labels=True, node_color=node_color, font_color=font_color, font_weight=font_weight, node_size=node_size)
 
-        #edge_labels = {(u,v): f"{self.process[u].result}" for u,v in self.graph.edges()}
-        #nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
-    
+    def visualize_graph(self, font_color='black', font_weight='bold', node_size=1500, legend=None):
+        node_color = ['green' if node == 'start' else 'red' if node ==
+                      'end' else 'Orange' for node in self.graph.nodes()]
+        pos = nx.circular_layout(self.graph)
+        nx.draw(self.graph, pos, with_labels=True, node_color=node_color,
+                font_color=font_color, font_weight=font_weight, node_size=node_size)
+
+        # edge_labels = {(u,v): f"{self.process[u].result}" for u,v in self.graph.edges()}
+        # nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
+
         if legend:
             for label, color in legend.items():
                 plt.scatter([], [], c=color, label=label, s=node_size)
             plt.legend(scatterpoints=1, frameon=False, labelspacing=1.5)
         plt.show()
-
 
     def add_stock(self, stock_name: str, quantity: int):
         if not isinstance(stock_name, str) or not isinstance(quantity, int):
@@ -239,4 +241,4 @@ class Base:
                 optimize_str += ";"
         optimize_str += ")"
 
-        return f"{stock_str}\n{process_str}\n{optimize_str}" 
+        return f"{stock_str}\n{process_str}\n{optimize_str}"

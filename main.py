@@ -1,9 +1,12 @@
-import os, sys, argparse
+import os
+import sys
+import argparse
 import networkx as nx
 import matplotlib.pyplot as plt
 from Parser import Parser
 from Base import Base
 from Population import Population
+
 
 def load_file(input_filename: str) -> object:
     if not os.path.exists(input_filename):
@@ -12,11 +15,12 @@ def load_file(input_filename: str) -> object:
     input_file = open(input_filename, "r")
     return input_file
 
+
 def main():
     argparser = argparse.ArgumentParser(
         description="krpsim")
     argparser.add_argument("input_filename", nargs="?",
-                        help="Path to the input file")
+                           help="Path to the input file")
 
     args = argparser.parse_args()
 
@@ -31,10 +35,10 @@ def main():
         parser.parse(input_file)
         base.initial_stock = base.stock
         base.print_initial_stocks()
-        #base.print_stocks()
-        #print(base.stock)
-        #print(base.process)
-        #print(base.optimize)
+        # base.print_stocks()
+        # print(base.stock)
+        # print(base.process)
+        # print(base.optimize)
 
         print("\nPrint Base info:\n")
         print(base)
@@ -46,12 +50,16 @@ def main():
 
     print("\nInitial Population:\n")
     for i, individual in enumerate(initial_population):
-       print(f"Individual {i+1}: {individual.individual}")
-       #individual.calculate_fitness()
-       #print(individual.fitness)
+        # print(f"Individual {i+1}: {individual.individual}")
+        individual.calculate_fitness()
+        print(individual.fitness)
 
     # base.create_graph()
     # base.visualize_graph()
+
+    # base.create_graph()
+    # base.visualize_graph()
+
 
 if __name__ == "__main__":
     main()
