@@ -1,4 +1,5 @@
 import os
+import curses
 import sys
 import argparse
 import networkx as nx
@@ -50,9 +51,26 @@ def main():
 
     print("\nInitial Population:\n")
     for i, individual in enumerate(initial_population):
-        # print(f"Individual {i+1}: {individual.individual}")
+        #print(f"Individual {i+1}: {individual.individual}")
         individual.calculate_fitness()
-        print(individual.fitness)
+        print('start')
+        print(individual.stock)
+        #print(individual.fitness)
+        prev_indi = base.copy()
+        indi = individual.copy()
+        while indi.stock != prev_indi.stock:
+            prev_indi = indi
+            new_indi = indi.copy()
+            new_indi.base.stock = indi.stock
+            new_indi.base.initial_stock = indi.stock
+            new_indi.generate_indi()
+            #print(f"Individual {i+1}: {individual.individual}")
+            print('new stock:', new_indi.stock)
+            indi = new_indi.copy()
+            #print(indi.fitness)
+        print('end')
+        if i == 20:
+            break
 
     # base.create_graph()
     # base.visualize_graph()

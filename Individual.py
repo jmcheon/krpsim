@@ -1,4 +1,4 @@
-import random
+import random, copy
 
 
 class Individual:
@@ -20,12 +20,16 @@ class Individual:
         else:
             raise ValueError('Stock must be a dictionary')
 
+    def copy(self):
+        return copy.copy(self)
+
     def generate_indi(self):
         pop = []
 
         while len(pop) < 1:
-            self.individual = self.base.generate_walk()
-            # self.base.print_stocks()
+            self.individual.extend(self.base.generate_walk())
+            print('base stock')
+            self.base.print_stocks()
             self.stock = self.base.stock
             self.base.stock = self.base.initial_stock
             if self.individual != None and len(self.individual) != 0:
@@ -66,4 +70,4 @@ class Individual:
                 self.fitness += self.calculate_fitness_time()
             else:
                 self.fitness += self.stock[optimize_item]
-        print(self.stock)
+        #print(self.stock)

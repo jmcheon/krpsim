@@ -1,4 +1,5 @@
 from Process import Process
+from collections import deque
 import copy
 import random
 import networkx as nx
@@ -93,6 +94,24 @@ class Base:
             print(f'{stock}:{quantity}')
         print('--------------')
 
+    def get_max_optimize_stock_quantity(self):
+        max_quantity = 0
+        for process in self.process.values():
+            for optimize in self.optimize:
+                if optimize != 'time' and optimize in process.result.keys():
+                    if max_quantity < process.result[optimize]:
+                        max_quantity = process.result[optimize]
+        return max_quantity
+
+    def get_max_optimize_process(self):
+        max_quantity = self.get_max_optimize_stock_quantity()
+        for process in self.process.values():
+            for optimize in self.optimize:
+                if optimize != 'time' and optimize in process.result.keys():
+                    if max_quantity == process.result[optimize]:
+                        return process
+        return None
+
     def get_available_stocks(self) -> list:
         stock_lst = []
         for stock, quantity in self.stock.items():
@@ -125,7 +144,17 @@ class Base:
         # self.print_stocks()
         for stock in self.optimize:
             if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
+            #if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
+            #print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
+            #if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
                 return True
+        return False
+
+    def is_reached_optimizing_process(self, process_name) -> bool:
+        optimize_process = self.get_max_optimize_process()
+        if process_name == optimize_process.name:
+            #print(process_name)
+            return True
         return False
 
     def run_process(self, process: Process) -> bool:
@@ -142,19 +171,75 @@ class Base:
         # print(result_dict)
         for stock, quantity in result_dict.items():
             self.stock[stock] += quantity
-        # self.print_stocks()
+        #self.print_stocks()
         return True
 
-    def generate_walk(self) -> list:
+    def undo_process(self, process: Process):
+        need_dict = process.need
+        # print(need_dict)
+        for stock, quantity in need_dict.items():
+            self.stock[stock] += quantity
+
+        result_dict = process.result
+        # print(result_dict)
+        for stock, quantity in result_dict.items():
+            self.stock[stock] -= quantity
+        # self.print_stocks()
+
+    def bfs(self) -> list:
         walk = []
+        process_lst = self.get_available_processes()
+        print('process lst:', process_lst)
+        queue = deque()
+
+
         while self.is_optimized() == False:
-            process_lst = self.get_available_processes()
+            #process_lst = self.get_available_processes()
+            prev_process_lst = process_lst
             if len(process_lst) == 0:
                 # return None
                 return walk
             v = random.choice(process_lst)
+            print(f'v:{v}')
             if self.run_process(self.process[v]):
+                post_process_lst = self.get_available_processes()
+                if len(post_process_lst) == 0 and self.is_optimized() == False:
+                    self.undo_process(self.process[v])
+                    print(f'remove {v} from {process_lst}')
+                    process_lst.remove(v)
+                else:
+                    process_lst = []
                 # print(v)
+                walk.append(v)
+            else:
+                process_lst.remove(v)
+            if len(process_lst) == 0:
+                process_lst = self.get_available_processes()
+            if process_lst == prev_process_lst:
+                print(f'prev_v:{v}')
+                self.undo_process(self.process[v])
+                process_lst.remove(v)
+                #break
+        # print('walk:', walk)
+        return walk
+
+    def generate_walk(self) -> list:
+        walk = []
+        print(self.get_max_optimize_stock_quantity())
+        #while self.is_optimized() == False:
+        process_lst = self.get_available_processes()
+        if len(process_lst) != 0:
+            v = random.choice(process_lst)
+        while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
+        #while self.is_optimized() == False:
+            process_lst = self.get_available_processes()
+            if len(process_lst) == 0:
+                print('no more process left')
+                # return None
+                return walk
+            v = random.choice(process_lst)
+            if self.run_process(self.process[v]):
+                #print('adding:', v)
                 walk.append(v)
         # print('walk:', walk)
         return walk
