@@ -143,17 +143,18 @@ class Base:
     def is_optimized(self) -> bool:
         # self.print_stocks()
         for stock in self.optimize:
-            if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
+            #if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
             #if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
             #print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
-            #if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
+            if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
                 return True
         return False
 
     def is_reached_optimizing_process(self, process_name) -> bool:
         optimize_process = self.get_max_optimize_process()
+        #if process_name == optimize_process.name and self.is_need_satisfied(optimize_process):
         if process_name == optimize_process.name:
-            #print(process_name)
+            print('reached:', process_name)
             return True
         return False
 
@@ -162,6 +163,8 @@ class Base:
         # print(need_dict)
         for stock, quantity in need_dict.items():
             # if self.is_stock_available(stock, -quantity):
+            if process.name == 'vente_boite':
+                print('qty:', self.stock[stock])
             if self.is_stock_satisfied(stock, quantity):
                 self.stock[stock] -= quantity
             else:
@@ -170,8 +173,14 @@ class Base:
         result_dict = process.result
         # print(result_dict)
         for stock, quantity in result_dict.items():
+            if process.name == 'vente_boite':
+                print('result:', self.stock[stock], 'adding:', quantity)
             self.stock[stock] += quantity
-        #self.print_stocks()
+        if process.name == 'vente_boite':
+            print(f'run: ', process.name)
+            print(need_dict)
+            print(result_dict)
+            self.print_stocks()
         return True
 
     def undo_process(self, process: Process):
@@ -186,50 +195,11 @@ class Base:
             self.stock[stock] -= quantity
         # self.print_stocks()
 
-    def bfs(self) -> list:
-        walk = []
-        process_lst = self.get_available_processes()
-        print('process lst:', process_lst)
-        queue = deque()
-
-
-        while self.is_optimized() == False:
-            #process_lst = self.get_available_processes()
-            prev_process_lst = process_lst
-            if len(process_lst) == 0:
-                # return None
-                return walk
-            v = random.choice(process_lst)
-            print(f'v:{v}')
-            if self.run_process(self.process[v]):
-                post_process_lst = self.get_available_processes()
-                if len(post_process_lst) == 0 and self.is_optimized() == False:
-                    self.undo_process(self.process[v])
-                    print(f'remove {v} from {process_lst}')
-                    process_lst.remove(v)
-                else:
-                    process_lst = []
-                # print(v)
-                walk.append(v)
-            else:
-                process_lst.remove(v)
-            if len(process_lst) == 0:
-                process_lst = self.get_available_processes()
-            if process_lst == prev_process_lst:
-                print(f'prev_v:{v}')
-                self.undo_process(self.process[v])
-                process_lst.remove(v)
-                #break
-        # print('walk:', walk)
-        return walk
-
     def generate_walk(self) -> list:
         walk = []
         print(self.get_max_optimize_stock_quantity())
         #while self.is_optimized() == False:
-        process_lst = self.get_available_processes()
-        if len(process_lst) != 0:
-            v = random.choice(process_lst)
+        v = None
         while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
         #while self.is_optimized() == False:
             process_lst = self.get_available_processes()
@@ -239,9 +209,11 @@ class Base:
                 return walk
             v = random.choice(process_lst)
             if self.run_process(self.process[v]):
-                #print('adding:', v)
+                if v == 'vente_boite':
+                    print('adding:', v)
                 walk.append(v)
         # print('walk:', walk)
+        print('return gen w', v)
         return walk
 
     def find_connecting_process(self, process):
