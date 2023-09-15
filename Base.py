@@ -1,5 +1,6 @@
 from Process import Process
 from collections import deque
+import imageio
 import copy
 import random
 import networkx as nx
@@ -15,6 +16,33 @@ class Base:
         self._process = {}
         self._optimize = []
         self._graph = nx.DiGraph()
+
+    def create_stock_image(self, process_name, i):
+        plt.figure(figsize=(10,6))
+        bars = plt.bar(self.stock.keys(), self.stock.values())
+        #plt.title(f'Stocks after iteration {i}')
+        plt.title(f'Stocks after iteration {i}\nCurrent process: {process_name}')
+        plt.xlabel('Stock')
+        plt.ylabel('Quantity')
+        
+        # Rotate x-axis labels
+        plt.setp(plt.gca().get_xticklabels(), rotation=45)
+        
+        # Add quantity labels on top of each bar
+        for bar in bars:
+            yval = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2.0, yval, int(yval), va='bottom')  # va: vertical alignment
+        
+        plt.tight_layout()
+        plt.savefig(f'stock_{i}.png')
+
+        #plt.show()
+    def save_animated_image(self, i):
+        print(f"Creating an animated image... i: {i}")
+        images = []
+        for i in range(3103):
+            images.append(imageio.imread(f'stock_{i}.png'))
+        imageio.mimsave('stocks.gif', images)
 
     def set_attributes(self, initial_stock, stock, process, optimize, graph):
         self.initial_stock = dict(initial_stock)
@@ -143,10 +171,10 @@ class Base:
     def is_optimized(self) -> bool:
         # self.print_stocks()
         for stock in self.optimize:
-            #if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
+            if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
             #if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
             #print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
-            if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
+            #if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
                 return True
         return False
 
@@ -200,8 +228,9 @@ class Base:
         print(self.get_max_optimize_stock_quantity())
         #while self.is_optimized() == False:
         v = None
-        while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
-        #while self.is_optimized() == False:
+        i = 0
+        #while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
+        while self.is_optimized() == False:
             process_lst = self.get_available_processes()
             if len(process_lst) == 0:
                 print('no more process left')
@@ -212,8 +241,14 @@ class Base:
                 if v == 'vente_boite':
                     print('adding:', v)
                 walk.append(v)
+            if i == 3103:
+                print(f"stocks at i: {i}")
+                self.print_stocks()
         # print('walk:', walk)
-        print('return gen w', v)
+            #self.create_stock_image(v, i)
+            i += 1
+        print(f'return gen walk: {v}, i: {i}')
+        #self.save_animated_image(i)
         return walk
 
     def find_connecting_process(self, process):
