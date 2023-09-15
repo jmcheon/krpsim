@@ -19,9 +19,11 @@ class Base:
 
     def create_stock_image(self, process_name, i):
         plt.figure(figsize=(10,6))
-        bars = plt.bar(self.stock.keys(), self.stock.values())
+        colors = ['orange' if stock in self.optimize else 'skyblue' for stock in self.stock.keys()]
+
+        bars = plt.bar(self.stock.keys(), self.stock.values(), color=colors)
         #plt.title(f'Stocks after iteration {i}')
-        plt.title(f'Stocks after iteration {i}\nCurrent process: {process_name}')
+        plt.title(f'Stocks after iteration {i * 10}\nCurrent process: {process_name}')
         plt.xlabel('Stock')
         plt.ylabel('Quantity')
         
@@ -34,14 +36,14 @@ class Base:
             plt.text(bar.get_x() + bar.get_width()/2.0, yval, int(yval), va='bottom')  # va: vertical alignment
         
         plt.tight_layout()
-        plt.savefig(f'stock_{i}.png')
+        plt.savefig(f'stock_images/stock_{i}.png')
 
         #plt.show()
     def save_animated_image(self, i):
         print(f"Creating an animated image... i: {i}")
         images = []
-        for i in range(3103):
-            images.append(imageio.imread(f'stock_{i}.png'))
+        for i in range(i):
+            images.append(imageio.imread(f'stock_images/stock_{i}.png'))
         imageio.mimsave('stocks.gif', images)
 
     def set_attributes(self, initial_stock, stock, process, optimize, graph):
@@ -229,6 +231,7 @@ class Base:
         #while self.is_optimized() == False:
         v = None
         i = 0
+        j = 0
         #while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
         while self.is_optimized() == False:
             process_lst = self.get_available_processes()
@@ -241,14 +244,15 @@ class Base:
                 if v == 'vente_boite':
                     print('adding:', v)
                 walk.append(v)
-            if i == 3103:
-                print(f"stocks at i: {i}")
-                self.print_stocks()
         # print('walk:', walk)
-            #self.create_stock_image(v, i)
+            if i % 10 == 0:
+                self.create_stock_image(v, j)
+                j += 1
             i += 1
         print(f'return gen walk: {v}, i: {i}')
-        #self.save_animated_image(i)
+        if i % 10 != 0:
+            self.create_stock_image(v, j)
+        self.save_animated_image(j)
         return walk
 
     def find_connecting_process(self, process):
