@@ -36,6 +36,7 @@ def main():
         parser.parse(input_file)
         base.initial_stock = base.stock
         base.print_initial_stocks()
+        base.init_agent()
         # base.print_stocks()
         # print(base.stock)
         # print(base.process)
@@ -45,7 +46,7 @@ def main():
         print(base)
 
     # Example usage
-    population_size = 1
+    population_size = 2
     population = Population(population_size)
     initial_population = population.generate_population(base)
     #initial_population[1].base.create_stock_image(0)

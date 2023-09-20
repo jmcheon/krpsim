@@ -3,8 +3,10 @@ from collections import deque
 import imageio
 import copy
 import random
+import itertools
 import networkx as nx
 import matplotlib.pyplot as plt
+from QLearningAgent import QLearningAgent
 
 
 class Base:
@@ -16,42 +18,15 @@ class Base:
         self._process = {}
         self._optimize = []
         self._graph = nx.DiGraph()
+        self.state_mapping = {}
+        self.action_mapping = {}
+        self.agent = None
 
-    def create_stock_image(self, process_name, i):
-        plt.figure(figsize=(10,6))
-        colors = ['orange' if stock in self.optimize else 'skyblue' for stock in self.stock.keys()]
-
-        bars = plt.bar(self.stock.keys(), self.stock.values(), color=colors)
-        #plt.title(f'Stocks after iteration {i}')
-        plt.title(f'Stocks after iteration {i * 10}\nCurrent process: {process_name}')
-        plt.xlabel('Stock')
-        plt.ylabel('Quantity')
-        
-        # Rotate x-axis labels
-        plt.setp(plt.gca().get_xticklabels(), rotation=45)
-        
-        # Add quantity labels on top of each bar
-        for bar in bars:
-            yval = bar.get_height()
-            plt.text(bar.get_x() + bar.get_width()/2.0, yval, int(yval), va='bottom')  # va: vertical alignment
-        
-        plt.tight_layout()
-        plt.savefig(f'stock_images/stock_{i}.png')
-
-        #plt.show()
-    def save_animated_image(self, i):
-        print(f"Creating an animated image... i: {i}")
-        images = []
-        for i in range(i):
-            images.append(imageio.imread(f'stock_images/stock_{i}.png'))
-        imageio.mimsave('stocks.gif', images)
-
-    def set_attributes(self, initial_stock, stock, process, optimize, graph):
+    def set_attributes(self, initial_stock, stock, process, optimize):
         self.initial_stock = dict(initial_stock)
         self.stock = dict(stock)
         self.process = dict(process)
         self.optimize = list(optimize)
-        self.graph = (graph)
 
     @property
     def initial_stock(self):
@@ -109,6 +84,22 @@ class Base:
         else:
             raise ValueError('Gragph must be an instance of networkx.DiGraph')
 
+    def init_agent(self):
+        print('num_states:', 2 ** (len(self.process)))
+        print('num_actions:', (len(self.process)))
+        self.agent = QLearningAgent(2**len(self.process), len(self.process))
+        self.map_states()
+
+    def map_states(self):
+        for i in range(1, len(self.process) + 1):
+            for combination in itertools.combinations(self.process, i):
+                self.state_mapping[combination] = len(self.state_mapping)
+        print(self.state_mapping)
+
+    def map_actions(self):
+        self.action_mapping = {(name): i for i, name in enumerate(self.process)}
+
+
     def copy(self):
         return copy.copy(self)
 
@@ -155,6 +146,17 @@ class Base:
             # stock_lst = self.get_available_stocks()
             if self.is_need_satisfied(process):
                 process_lst.append(process.name)
+        return process_lst
+
+    def get_available_processes2(self) -> list:
+        process_lst = []
+        for process in self.process.values():
+            # stock_lst = self.get_available_stocks()
+            if self.is_need_satisfied(process):
+                #for stock in process.need.keys():
+                #print(list(process.need.keys()), self.optimize)
+                if self.optimize != list(process.need.keys()):
+                    process_lst.append(process.name)
         return process_lst
 
     def is_stock_satisfied(self, stock: str, quantity: int) -> bool:
@@ -228,6 +230,7 @@ class Base:
     def generate_walk(self) -> list:
         walk = []
         print(self.get_max_optimize_stock_quantity())
+        print(self.agent.num_states, self.agent.num_actions)
         #while self.is_optimized() == False:
         v = None
         i = 0
@@ -235,25 +238,58 @@ class Base:
         #while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
         while self.is_optimized() == False:
             process_lst = self.get_available_processes()
+            #print(process_lst)
             if len(process_lst) == 0:
                 print('no more process left')
                 # return None
                 return walk
             v = random.choice(process_lst)
+            #print('mapping num:', self.state_mapping[tuple(process_lst)], process_lst)
+            #v = self.agent.epsilon_greedy_policy(self.state_mapping[tuple(process_lst)])
+            #print(f'v: {v}')
             if self.run_process(self.process[v]):
                 if v == 'vente_boite':
                     print('adding:', v)
                 walk.append(v)
         # print('walk:', walk)
             if i % 10 == 0:
-                self.create_stock_image(v, j)
+                # self.create_stock_image(v, j)
                 j += 1
             i += 1
         print(f'return gen walk: {v}, i: {i}')
-        if i % 10 != 0:
-            self.create_stock_image(v, j)
-        self.save_animated_image(j)
+        # if i % 10 != 0:
+            # self.create_stock_image(v, j)
+        # self.save_animated_image(j)
         return walk
+
+    def create_stock_image(self, process_name, i):
+        plt.figure(figsize=(10,6))
+        colors = ['orange' if stock in self.optimize else 'skyblue' for stock in self.stock.keys()]
+
+        bars = plt.bar(self.stock.keys(), self.stock.values(), color=colors)
+        #plt.title(f'Stocks after iteration {i}')
+        plt.title(f'Stocks after iteration {i * 10}\nCurrent process: {process_name}')
+        plt.xlabel('Stock')
+        plt.ylabel('Quantity')
+        
+        # Rotate x-axis labels
+        plt.setp(plt.gca().get_xticklabels(), rotation=45)
+        
+        # Add quantity labels on top of each bar
+        for bar in bars:
+            yval = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2.0, yval, int(yval), va='bottom')  # va: vertical alignment
+        
+        plt.tight_layout()
+        plt.savefig(f'stock_images/stock_{i}.png')
+
+        #plt.show()
+    def save_animated_image(self, i):
+        print(f"Creating an animated image... i: {i}")
+        images = []
+        for i in range(i):
+            images.append(imageio.imread(f'stock_images/stock_{i}.png'))
+        imageio.mimsave('stocks.gif', images)
 
     def find_connecting_process(self, process):
         process_lst = []
