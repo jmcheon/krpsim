@@ -1,13 +1,9 @@
 from Process import Process
-from collections import deque
 import imageio
 import copy
 import random
-import itertools
 import networkx as nx
 import matplotlib.pyplot as plt
-from QLearningAgent import QLearningAgent
-
 
 class Base:
 
@@ -18,9 +14,22 @@ class Base:
         self._process = {}
         self._optimize = []
         self._graph = nx.DiGraph()
-        self.state_mapping = {}
-        self.action_mapping = {}
-        self.agent = None
+
+    def add_stock(self, stock_name: str, quantity: int):
+        if not isinstance(stock_name, str) or not isinstance(quantity, int):
+            raise TypeError(f"Invalid type for stock.")
+        self.stock[stock_name] = quantity
+
+    def add_process(self, process_name: str, process: Process):
+        if not isinstance(process_name, str) or not isinstance(process, Process):
+            raise TypeError(f"Invalid type for process.")
+        self.process[process_name] = process
+
+    def add_optimize(self, optimize_name: str):
+        if not isinstance(optimize_name, str):
+            raise TypeError(f"Invalid type for optimize.")
+        if optimize_name not in self.optimize:
+            self.optimize.append(optimize_name)
 
     def set_attributes(self, initial_stock, stock, process, optimize):
         self.initial_stock = dict(initial_stock)
@@ -84,22 +93,6 @@ class Base:
         else:
             raise ValueError('Gragph must be an instance of networkx.DiGraph')
 
-    def init_agent(self):
-        print('num_states:', 2 ** (len(self.process)))
-        print('num_actions:', (len(self.process)))
-        self.agent = QLearningAgent(2**len(self.process), len(self.process))
-        self.map_states()
-
-    def map_states(self):
-        for i in range(1, len(self.process) + 1):
-            for combination in itertools.combinations(self.process, i):
-                self.state_mapping[combination] = len(self.state_mapping)
-        print(self.state_mapping)
-
-    def map_actions(self):
-        self.action_mapping = {(name): i for i, name in enumerate(self.process)}
-
-
     def copy(self):
         return copy.copy(self)
 
@@ -114,6 +107,37 @@ class Base:
         for stock, quantity in self.stock.items():
             print(f'{stock}:{quantity}')
         print('--------------')
+
+    def is_stock_satisfied(self, stock: str, quantity: int) -> bool:
+        if self.stock[stock] >= quantity:
+            return True
+        return False
+
+    def is_need_satisfied(self, process: Process) -> bool:
+        for stock, quantity in process.need.items():
+            # print(f'{process.name} stock: {stock}, qty: {quantity}')
+            ret = self.is_stock_satisfied(stock, quantity)
+            if ret == False:
+                return False
+        return True
+
+    def is_optimized(self) -> bool:
+        # self.print_stocks()
+        for stock in self.optimize:
+            if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
+            #if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
+            #print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
+            #if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
+                return True
+        return False
+
+    def is_reached_optimizing_process(self, process_name) -> bool:
+        optimize_process = self.get_max_optimize_process()
+        #if process_name == optimize_process.name and self.is_need_satisfied(optimize_process):
+        if process_name == optimize_process.name:
+            print('reached:', process_name)
+            return True
+        return False
 
     def get_max_optimize_stock_quantity(self):
         max_quantity = 0
@@ -159,37 +183,6 @@ class Base:
                     process_lst.append(process.name)
         return process_lst
 
-    def is_stock_satisfied(self, stock: str, quantity: int) -> bool:
-        if self.stock[stock] >= quantity:
-            return True
-        return False
-
-    def is_need_satisfied(self, process: Process) -> bool:
-        for stock, quantity in process.need.items():
-            # print(f'{process.name} stock: {stock}, qty: {quantity}')
-            ret = self.is_stock_satisfied(stock, quantity)
-            if ret == False:
-                return False
-        return True
-
-    def is_optimized(self) -> bool:
-        # self.print_stocks()
-        for stock in self.optimize:
-            if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
-            #if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
-            #print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
-            #if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
-                return True
-        return False
-
-    def is_reached_optimizing_process(self, process_name) -> bool:
-        optimize_process = self.get_max_optimize_process()
-        #if process_name == optimize_process.name and self.is_need_satisfied(optimize_process):
-        if process_name == optimize_process.name:
-            print('reached:', process_name)
-            return True
-        return False
-
     def run_process(self, process: Process) -> bool:
         need_dict = process.need
         # print(need_dict)
@@ -230,7 +223,7 @@ class Base:
     def generate_walk(self) -> list:
         walk = []
         print(self.get_max_optimize_stock_quantity())
-        print(self.agent.num_states, self.agent.num_actions)
+        #print(self.agent.num_states, self.agent.num_actions)
         #while self.is_optimized() == False:
         v = None
         i = 0
@@ -291,7 +284,7 @@ class Base:
             images.append(imageio.imread(f'stock_images/stock_{i}.png'))
         imageio.mimsave('stocks.gif', images)
 
-    def find_connecting_process(self, process):
+    def find_connecting_process(self, process: Process) -> list:
         process_lst = []
         for pro in self.process.values():
             # print(pro.need.keys())
@@ -337,22 +330,6 @@ class Base:
                 plt.scatter([], [], c=color, label=label, s=node_size)
             plt.legend(scatterpoints=1, frameon=False, labelspacing=1.5)
         plt.show()
-
-    def add_stock(self, stock_name: str, quantity: int):
-        if not isinstance(stock_name, str) or not isinstance(quantity, int):
-            raise TypeError(f"Invalid type for stock.")
-        self.stock[stock_name] = quantity
-
-    def add_process(self, process_name: str, process: Process):
-        if not isinstance(process_name, str) or not isinstance(process, Process):
-            raise TypeError(f"Invalid type for process.")
-        self.process[process_name] = process
-
-    def add_optimize(self, optimize_name: str):
-        if not isinstance(optimize_name, str):
-            raise TypeError(f"Invalid type for optimize.")
-        if optimize_name not in self.optimize:
-            self.optimize.append(optimize_name)
 
     def __str__(self):
         stock_str = ""

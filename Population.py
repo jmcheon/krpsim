@@ -8,10 +8,10 @@ class Population:
         self.population_size = population_size
 
     # Generate the initial population of individuals (schedules)
-    def generate_population(self, base):
+    def generate_population(self, agent):
     
         for _ in range(self.population_size):
-            individual = Individual(base) 
+            individual = Individual(agent) 
             #self.population.append(individual.generate_individual())
             self.population.append(individual.generate_indi())
     

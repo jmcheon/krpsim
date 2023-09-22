@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from Parser import Parser
 from Base import Base
 from Population import Population
+from QLearningAgent import QLearningAgent
 
 
 def load_file(input_filename: str) -> object:
@@ -30,26 +31,23 @@ def main():
         sys.exit(1)
 
     if args.input_filename:
-        base = Base()
+        agent = QLearningAgent()
         input_file = load_file(args.input_filename)
-        parser = Parser(base)
+        parser = Parser(agent)
         parser.parse(input_file)
-        base.initial_stock = base.stock
-        base.print_initial_stocks()
-        base.init_agent()
-        # base.print_stocks()
-        # print(base.stock)
-        # print(base.process)
-        # print(base.optimize)
+        agent.initial_stock = agent.stock
+        agent.print_initial_stocks()
+        #agent.set_resources(base)
+        agent.init_agent()
 
         print("\nPrint Base info:\n")
-        print(base)
+        print(agent)
 
     # Example usage
-    population_size = 2
+    population_size = 1
     population = Population(population_size)
-    initial_population = population.generate_population(base)
-    #initial_population[1].base.create_stock_image(0)
+    initial_population = population.generate_population(agent)
+    #initial_population[1].agent.create_stock_image(0)
     sys.exit()
 
     print("\nInitial Population:\n")
@@ -59,13 +57,13 @@ def main():
         print('start')
         print(individual.stock)
         #print(individual.fitness)
-        prev_indi = base.copy()
+        prev_indi = agent.copy()
         indi = individual.copy()
         while indi.stock != prev_indi.stock:
             prev_indi = indi
             new_indi = indi.copy()
-            new_indi.base.stock = indi.stock
-            new_indi.base.initial_stock = indi.stock
+            new_indi.agent.stock = indi.stock
+            new_indi.agent.initial_stock = indi.stock
             new_indi.generate_indi()
             #print(f"Individual {i+1}: {individual.individual}")
             print('new stock:', new_indi.stock)
@@ -75,11 +73,11 @@ def main():
         if i == 20:
             break
 
-    # base.create_graph()
-    # base.visualize_graph()
+    # agent.create_graph()
+    # agent.visualize_graph()
 
-    # base.create_graph()
-    # base.visualize_graph()
+    # agent.create_graph()
+    # agent.visualize_graph()
 
 
 if __name__ == "__main__":

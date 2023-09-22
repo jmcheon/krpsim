@@ -1,16 +1,40 @@
 import numpy as np
+import copy, random
+import itertools
+from Base import Base
 
-class QLearningAgent:
+class QLearningAgent(Base):
 
-    def __init__(self, num_states, num_actions, epsilon=0.1, alpha=0.5, gamma=0.9): 
+    def __init__(self, num_states=None, num_actions=None, epsilon=0.1, alpha=0.5, gamma=0.9): 
+        super().__init__()
         self.num_states = num_states
         self.num_actions = num_actions
+        self.q_table = None #np.zeros((num_states, num_actions))
+        self.state_mapping = {}
+        self.action_mapping = {}
         self.epsilon = epsilon # exploration rate
         self.alpha = alpha # learning rate
         self.gamma = gamma # discount factor
-        self.q_table = np.zeros((num_states, num_actions))
-        self.state_mapping = {}
-        self.action_mapping = {}
+
+    def copy(self):
+        return copy.copy(self)
+
+    def init_agent(self):
+        print('num_states:', 2 ** (len(self.process)))
+        print('num_actions:', (len(self.process)))
+        #self.print_stocks()
+        self.num_states = 2 ** len(self.process)
+        self.num_actions = len(self.process)
+        #print(self.num_states, self.num_actions)
+        self.q_table = np.zeros((self.num_states, self.num_actions))
+        self.map_states()
+        self.map_actions()
+
+    def set_resources(self, base):
+        self.initial_stock = dict(base.initial_stock)
+        self.stock = dict(base.stock)
+        self.process = dict(base.process)
+        self.optimize = list(base.optimize)
 
     def map_states(self):
         for i in range(1, len(self.process) + 1):
@@ -20,6 +44,7 @@ class QLearningAgent:
 
     def map_actions(self):
         self.action_mapping = {(name): i for i, name in enumerate(self.process)}
+        #print(self.action_mapping)
 
     def epsilon_greedy_policy(self, state):
         if np.random.uniform(0, 1) < self.epsilon:
@@ -46,16 +71,18 @@ class QLearningAgent:
         j = 0
         #while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
         while self.is_optimized() == False:
+            self.print_stocks()
             process_lst = self.get_available_processes()
             #print(process_lst)
             if len(process_lst) == 0:
                 print('no more process left')
                 # return None
                 return walk
-            #v = random.choice(process_lst)
-            #print('mapping num:', self.state_mapping[tuple(process_lst)], process_lst)
-            v = self.agent.epsilon_greedy_policy(self.state_mapping[tuple(process_lst)])
+            print('process_lst:', process_lst)
+            print('mapping num:', self.state_mapping[tuple(process_lst)])
+            v = self.epsilon_greedy_policy(self.state_mapping[tuple(process_lst)])
             print(f'v: {v}')
+            v = random.choice(process_lst)
             if self.run_process(self.process[v]):
                 if v == 'vente_boite':
                     print('adding:', v)

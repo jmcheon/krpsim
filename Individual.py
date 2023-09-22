@@ -1,12 +1,11 @@
 import random, copy
 
-
 class Individual:
 
-    def __init__(self, base):
+    def __init__(self, agent):
         self.individual = []
         self.fitness = 0
-        self.base = base.copy()
+        self.agent = agent.copy()
         self.stock = {}
 
     @property
@@ -27,11 +26,11 @@ class Individual:
         pop = []
 
         while len(pop) < 1:
-            self.individual.extend(self.base.generate_walk())
-            print('base stock')
-            self.base.print_stocks()
-            self.stock = self.base.stock
-            self.base.stock = self.base.initial_stock
+            self.individual.extend(self.agent.generate_walk())
+            print('agent stock')
+            self.agent.print_stocks()
+            self.stock = self.agent.stock
+            self.agent.stock = self.agent.initial_stock
             if self.individual != None and len(self.individual) != 0:
                 pop.append(self.individual)
         # print(pop) # for debugging
@@ -59,12 +58,12 @@ class Individual:
     def calculate_fitness_time(self):
         time_denom = 0
         for process in self.individual:
-            time_denom += int(self.base.process[process].nb_cycle)
+            time_denom += int(self.agent.process[process].nb_cycle)
         return 1 / time_denom
 
     def calculate_fitness(self):
         time_applied = False
-        for optimize_item in self.base.optimize:
+        for optimize_item in self.agent.optimize:
             if optimize_item == "time" and time_applied == False:
                 time_applied = True
                 self.fitness += self.calculate_fitness_time()
