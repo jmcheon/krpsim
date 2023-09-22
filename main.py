@@ -53,7 +53,7 @@ def main():
     print("\nInitial Population:\n")
     for i, individual in enumerate(initial_population):
         #print(f"Individual {i+1}: {individual.individual}")
-        individual.calculate_fitness()
+        #individual.calculate_fitness()
         print('start')
         print(individual.stock)
         #print(individual.fitness)

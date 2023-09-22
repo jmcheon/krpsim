@@ -24,16 +24,27 @@ class Individual:
 
     def generate_indi(self):
         pop = []
+        if len(self.agent.get_available_processes()) == 0:
+        #if self.agent.is_already_optimized():
+            #self.agent.print_stocks()
+            print('done ...')
+            return self
 
         while len(pop) < 1:
-            self.individual.extend(self.agent.generate_walk())
+            walk = self.agent.generate_walk()
+            if walk == None or len(walk) == 0:
+                self.stock = self.agent.stock
+                self.agent.stock = self.agent.initial_stock
+                #print(len(pop))
+                continue
+            self.individual.extend(walk)
             print('agent stock')
             self.agent.print_stocks()
             self.stock = self.agent.stock
             self.agent.stock = self.agent.initial_stock
             if self.individual != None and len(self.individual) != 0:
                 pop.append(self.individual)
-        # print(pop) # for debugging
+        #print('walk:', pop) # for debugging
         return self
 
     # Generate an individual (schedule) randomly

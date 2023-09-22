@@ -17,7 +17,7 @@ class QLearningAgent(Base):
         self.gamma = gamma # discount factor
 
     def copy(self):
-        return copy.copy(self)
+        return copy.deepcopy(self)
 
     def init_agent(self):
         print('num_states:', 2 ** (len(self.process)))
@@ -47,6 +47,17 @@ class QLearningAgent(Base):
     def get_reward(self, process_name: str) -> int:
         #print(list(self.process[process_name].result.keys()))
         #print(self.max_optimize_need_stocks)
+        initial_need_stocks = dict(self.max_optimize_process.need)
+        need_stocks = dict(initial_need_stocks)
+        #print('need_stocks:', need_stocks)
+        for stock_name, quantity in self.max_optimize_process.need.items():
+            need_stocks[stock_name] -= self.stock[stock_name]
+            if any(qty == 0 for qty in need_stocks.values()):
+                return -1
+        #print('need_stocks:', need_stocks)
+
+
+        #return 0
         if self.is_runable_next_process(self.process[process_name]) == False:
             return -100
         if all(elem in list(self.process[process_name].result.keys()) for elem in self.max_optimize_need_stocks):
@@ -121,9 +132,10 @@ class QLearningAgent(Base):
             process_lst = self.get_available_processes()
             #print(process_lst)
             if len(process_lst) == 0:
-                print('no more process left')
-                # return None
-                return walk
+                #print('no more process left')
+                #self.q_table = np.zeros((self.num_states, self.num_actions))
+                return None
+                #return walk
             #print(self.degrade)
             #print('process_lst:', process_lst)
             state_num = self.state_mapping[tuple(process_lst)]
@@ -139,9 +151,16 @@ class QLearningAgent(Base):
                 walk.append(v)
             next_process_lst = self.get_available_processes()
             if len(next_process_lst) == 0:
-                print('no more next process left')
-                # return None
-                return walk
+                #print(walk)
+                #print('no more next process left')
+                print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
+                if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_processes():
+                    print(process_name, self.get_optimize_processes())
+                    self.undo_process(self.process[v])
+                    self.q_table = np.zeros((self.num_states, self.num_actions))
+                    return None
+                else:
+                    return walk
             next_state = self.state_mapping[tuple(next_process_lst)]
 
             self.update_q_table(state_num, action_num, self.get_reward(process_name) , next_state)

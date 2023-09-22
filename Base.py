@@ -108,7 +108,7 @@ class Base:
             raise ValueError('Gragph must be an instance of networkx.DiGraph')
 
     def copy(self):
-        return copy.copy(self)
+        return copy.deepcopy(self)
 
     def print_initial_stocks(self):
         print('---initial stocks---')
@@ -161,6 +161,14 @@ class Base:
                     if max_quantity < process.result[optimize]:
                         max_quantity = process.result[optimize]
         return max_quantity
+
+    def get_optimize_processes(self) -> object:
+        process_lst = []
+        for process in self.process.values():
+            for optimize in self.optimize:
+                if optimize != 'time' and optimize in process.result.keys():
+                    process_lst.append(process.name)
+        return process_lst
 
     def get_max_optimize_process(self) -> object:
         max_quantity = self.get_max_optimize_stock_quantity()
@@ -278,9 +286,9 @@ class Base:
             process_lst = self.get_available_processes()
             #print(process_lst)
             if len(process_lst) == 0:
-                print('no more process left')
-                # return None
-                return walk
+                #print('no more process left')
+                return None
+                #return walk
             v = random.choice(process_lst)
             if self.run_process(self.process[v]):
                 if v == 'vente_boite':
