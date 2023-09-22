@@ -47,6 +47,8 @@ class QLearningAgent(Base):
     def get_reward(self, process_name: str) -> int:
         #print(list(self.process[process_name].result.keys()))
         #print(self.max_optimize_need_stocks)
+        if self.is_runable_next_process(self.process[process_name]) == False:
+            return -100
         if all(elem in list(self.process[process_name].result.keys()) for elem in self.max_optimize_need_stocks):
             return 20
         if process_name in self.degrade:

@@ -122,15 +122,15 @@ class Base:
             print(f'{stock}:{quantity}')
         print('--------------')
 
-    def is_stock_satisfied(self, stock: str, quantity: int) -> bool:
-        if self.stock[stock] >= quantity:
+    def is_stock_satisfied(self, stock: dict, stock_name: str, quantity: int) -> bool:
+        if stock[stock_name] >= quantity:
             return True
         return False
 
     def is_need_satisfied(self, process: Process) -> bool:
-        for stock, quantity in process.need.items():
+        for stock_name, quantity in process.need.items():
             # print(f'{process.name} stock: {stock}, qty: {quantity}')
-            ret = self.is_stock_satisfied(stock, quantity)
+            ret = self.is_stock_satisfied(self.stock, stock_name, quantity)
             if ret == False:
                 return False
         return True
@@ -215,15 +215,29 @@ class Base:
                     process_lst.append(process.name)
         return process_lst
 
+    def is_runable_next_process(self, process: Process) -> bool:
+        stock = dict(self.stock)
+        for stock_name, quantity in process.need.items():
+            if self.is_stock_satisfied(stock, stock_name, quantity):
+                stock[stock_name] -= quantity
+            else:
+                return False
+
+        for stock_name, quantity in process.result.items():
+            stock[stock_name] += quantity
+        process_lst = self.get_available_processes()
+        if self.is_runable_next_process == False:
+            return False
+        return True
+
     def run_process(self, process: Process) -> bool:
         need_dict = process.need
         # print(need_dict)
-        for stock, quantity in need_dict.items():
-            # if self.is_stock_available(stock, -quantity):
+        for stock_name, quantity in need_dict.items():
             #if process.name == 'vente_boite':
                 #print('qty:', self.stock[stock])
-            if self.is_stock_satisfied(stock, quantity):
-                self.stock[stock] -= quantity
+            if self.is_stock_satisfied(self.stock, stock_name, quantity):
+                self.stock[stock_name] -= quantity
             else:
                 return False
 
