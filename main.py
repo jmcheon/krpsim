@@ -44,11 +44,11 @@ def main():
         print(agent)
 
     # Example usage
-    population_size = 1
+    population_size = 2
     population = Population(population_size)
     initial_population = population.generate_population(agent)
     #initial_population[1].agent.create_stock_image(0)
-    sys.exit()
+    #sys.exit()
 
     print("\nInitial Population:\n")
     for i, individual in enumerate(initial_population):

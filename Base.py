@@ -13,6 +13,9 @@ class Base:
         self._stock = {}
         self._process = {}
         self._optimize = []
+        self._degrade = []
+        self.max_optimize_process = None
+        self.max_optimize_need_stocks = None
         self._graph = nx.DiGraph()
 
     def add_stock(self, stock_name: str, quantity: int):
@@ -54,6 +57,10 @@ class Base:
         return self._optimize
 
     @property
+    def degrade(self):
+        return self._degrade
+
+    @property
     def graph(self):
         return self._graph
 
@@ -85,6 +92,13 @@ class Base:
             self._optimize = list(optimize)
         else:
             raise ValueError('Optimize must be a list')
+
+    @degrade.setter
+    def degrade(self, degrade):
+        if isinstance(degrade, list):
+            self._degrade = list(degrade)
+        else:
+            raise ValueError('Degrade must be a list')
 
     @graph.setter
     def graph(self, graph):
@@ -139,7 +153,7 @@ class Base:
             return True
         return False
 
-    def get_max_optimize_stock_quantity(self):
+    def get_max_optimize_stock_quantity(self) -> int:
         max_quantity = 0
         for process in self.process.values():
             for optimize in self.optimize:
@@ -148,14 +162,32 @@ class Base:
                         max_quantity = process.result[optimize]
         return max_quantity
 
-    def get_max_optimize_process(self):
+    def get_max_optimize_process(self) -> object:
         max_quantity = self.get_max_optimize_stock_quantity()
         for process in self.process.values():
             for optimize in self.optimize:
                 if optimize != 'time' and optimize in process.result.keys():
                     if max_quantity == process.result[optimize]:
+                        self.max_optimize_process = process
                         return process
         return None
+
+    def get_max_optimize_need_stocks(self) -> object:
+        if self.max_optimize_process != None:
+            process = self.process[self.max_optimize_process]
+        else:
+            process = self.get_max_optimize_process()
+        self.max_optimize_need_stocks = list(process.need.keys())
+        #self.max_optimize_need_stocks = process.need.keys()
+        print('optimize need stocks:', self.max_optimize_need_stocks)
+        return self.max_optimize_need_stocks
+
+    def get_degrade_process(self) -> list:
+        for process in self.process.values():
+            for optimize in self.optimize:
+                if optimize != 'time' and optimize in process.need.keys():
+                    self.degrade.append(process.name)
+        return self.degrade
 
     def get_available_stocks(self) -> list:
         stock_lst = []
@@ -188,8 +220,8 @@ class Base:
         # print(need_dict)
         for stock, quantity in need_dict.items():
             # if self.is_stock_available(stock, -quantity):
-            if process.name == 'vente_boite':
-                print('qty:', self.stock[stock])
+            #if process.name == 'vente_boite':
+                #print('qty:', self.stock[stock])
             if self.is_stock_satisfied(stock, quantity):
                 self.stock[stock] -= quantity
             else:
@@ -199,6 +231,7 @@ class Base:
         # print(result_dict)
         for stock, quantity in result_dict.items():
             if process.name == 'vente_boite':
+                #print(self.max_optimize_need_stocks)
                 print('result:', self.stock[stock], 'adding:', quantity)
             self.stock[stock] += quantity
         if process.name == 'vente_boite':
@@ -220,11 +253,9 @@ class Base:
             self.stock[stock] -= quantity
         # self.print_stocks()
 
-    def generate_walk(self) -> list:
+    def generate_walk2(self) -> list:
         walk = []
         print(self.get_max_optimize_stock_quantity())
-        #print(self.agent.num_states, self.agent.num_actions)
-        #while self.is_optimized() == False:
         v = None
         i = 0
         j = 0
@@ -237,9 +268,6 @@ class Base:
                 # return None
                 return walk
             v = random.choice(process_lst)
-            #print('mapping num:', self.state_mapping[tuple(process_lst)], process_lst)
-            #v = self.agent.epsilon_greedy_policy(self.state_mapping[tuple(process_lst)])
-            #print(f'v: {v}')
             if self.run_process(self.process[v]):
                 if v == 'vente_boite':
                     print('adding:', v)
