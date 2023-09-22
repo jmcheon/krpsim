@@ -6,7 +6,7 @@ class Individual:
         self.individual = []
         self.fitness = 0
         self.agent = agent.copy()
-        self.stock = {}
+        self.stock = agent.stock
 
     @property
     def stock(self):

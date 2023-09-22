@@ -25,7 +25,6 @@ class QLearningAgent(Base):
         #self.print_stocks()
         self.num_states = 2 ** len(self.process)
         self.num_actions = len(self.process)
-        #print(self.num_states, self.num_actions)
         self.q_table = np.zeros((self.num_states, self.num_actions))
         self.map_states()
         self.map_actions()
@@ -54,10 +53,7 @@ class QLearningAgent(Base):
             need_stocks[stock_name] -= self.stock[stock_name]
             if any(qty == 0 for qty in need_stocks.values()):
                 return -1
-        #print('need_stocks:', need_stocks)
 
-
-        #return 0
         if self.is_runable_next_process(self.process[process_name]) == False:
             return -100
         if all(elem in list(self.process[process_name].result.keys()) for elem in self.max_optimize_need_stocks):
@@ -65,7 +61,6 @@ class QLearningAgent(Base):
         if process_name in self.degrade:
             return -20
         if process_name == self.max_optimize_process.name:
-            #print('Last', process_name)
             return 50
         else:
             return 0
@@ -97,21 +92,16 @@ class QLearningAgent(Base):
 
         # Update the Q-value with new value for state-action pair
         self.q_table[state][action] = new_value
-        #if old_value > 0:
-            #print(old_value, new_value)
 
     def set_q_value(self, state, action, value):
         self.q_table[state][action] = value
 
     def get_valid_available_process(self, process_lst):
         state_num = self.state_mapping[tuple(process_lst)]
-        #print('mapping num:', state_num) 
         action_num = self.epsilon_greedy_policy(self.state_mapping[tuple(process_lst)])
-
         process_name = self.get_key_from_value(self.action_mapping, action_num)
 
         while True:
-
             if process_name not in process_lst:
                 self.set_q_value(state_num, action_num, 0)
             else:
@@ -123,40 +113,29 @@ class QLearningAgent(Base):
 
     def generate_walk(self) -> list:
         walk = []
-        v = None
         i = 0
         j = 0
         #while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
         while self.is_optimized() == False:
-            #self.print_stocks()
             process_lst = self.get_available_processes()
-            #print(process_lst)
             if len(process_lst) == 0:
                 #print('no more process left')
-                #self.q_table = np.zeros((self.num_states, self.num_actions))
                 return None
                 #return walk
-            #print(self.degrade)
-            #print('process_lst:', process_lst)
             state_num = self.state_mapping[tuple(process_lst)]
             #print('mapping num:', state_num) 
             action_num, process_name = self.get_valid_available_process(process_lst)
-
-            v = process_name
             #print(f'action_num: {action_num}, {process_name}')
-            #v = random.choice(process_lst)
-            if self.run_process(self.process[v]):
-                if v == 'vente_boite':
-                    print('adding:', v)
-                walk.append(v)
+            if self.run_process(self.process[process_name]):
+                walk.append(process_name)
+
             next_process_lst = self.get_available_processes()
             if len(next_process_lst) == 0:
-                #print(walk)
                 #print('no more next process left')
-                print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
+                #print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
                 if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_processes():
-                    print(process_name, self.get_optimize_processes())
-                    self.undo_process(self.process[v])
+                    #print(process_name, self.get_optimize_processes())
+                    self.undo_process(self.process[process_name])
                     self.q_table = np.zeros((self.num_states, self.num_actions))
                     return None
                 else:
@@ -164,13 +143,12 @@ class QLearningAgent(Base):
             next_state = self.state_mapping[tuple(next_process_lst)]
 
             self.update_q_table(state_num, action_num, self.get_reward(process_name) , next_state)
-        # print('walk:', walk)
             if i % 10 == 0:
-                # self.create_stock_image(v, j)
+                # self.create_stock_image(process_name, j)
                 j += 1
             i += 1
-        print(f'return gen walk: {v}, i: {i}')
+        print(f'return gen walk: {process_name}, i: {i}')
         # if i % 10 != 0:
-            # self.create_stock_image(v, j)
+            # self.create_stock_image(process_name, j)
         # self.save_animated_image(j)
         return walk

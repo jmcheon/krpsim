@@ -40,6 +40,10 @@ class Base:
         self.process = dict(process)
         self.optimize = list(optimize)
 
+    def init_stocks(self):
+        for stock_name in self.stock.keys():
+            self.stock[stock_name] = 0
+
     @property
     def initial_stock(self):
         return self._initial_stock
