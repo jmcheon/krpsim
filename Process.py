@@ -3,7 +3,7 @@ class Process:
     def __init__(self, name, need, result, nb_cycle):
         self.name = name
         self._need = {}
-        self._result = {} 
+        self._result = {}
         self.nb_cycle = nb_cycle
 
         self.add_part(self._need, need)
@@ -24,10 +24,10 @@ class Process:
             sub_sub_parts = sub_part.split(":")
             part_name = sub_sub_parts[0].strip()
             part_quantity = sub_sub_parts[1].strip()
-            #print(f'current need: {part_name}:{part_quantity}')
+            # print(f'current need: {part_name}:{part_quantity}')
             if len(sub_sub_parts) != 2 \
-                or not part_name \
-                or not part_quantity.isdigit():
+                    or not part_name \
+                    or not part_quantity.isdigit():
                 return False
             to_dict[part_name] = int(part_quantity)
         return True

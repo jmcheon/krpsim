@@ -1,0 +1,47 @@
+import networkx as nx
+import re
+
+# Create a directed graph
+G = nx.DiGraph()
+
+# Define the input data
+input_data = """
+(oeuf:1):(jaune_oeuf:1;blanc_oeuf:1)
+(jaune_oeuf:1;blanc_oeuf:1):(oeuf:1)
+(oeuf:5;farine:100;beurre:4;lait:5):(pate_sablee:300;blanc_oeuf:3)
+(oeuf:3;farine:200;beurre:10;lait:2):(pate_feuilletee:100)
+(pate_feuilletee:100;citron:50;blanc_oeuf:5;four:1):(tarte_citron:5;four:1)
+(pate_sablee:100;pomme:30;four:1):(tarte_pomme:8;four:1)
+(jaune_oeuf:10;lait:4;four:1):(flan:5;four:1)
+(tarte_citron:3;tarte_pomme:7;flan:1;euro:30):(boite:1)
+(boite:100):(euro:55000)
+(tarte_pomme:10):(euro:100)
+(tarte_citron:10):(euro:200)
+(flan:10):(euro:300)
+"""
+
+# Split the input data into lines
+lines = input_data.strip().split('\n')
+
+# Parse each line and add edges to the graph
+for line in lines:
+    resource_str, outcome_str = line.split(':')
+
+    # Split resources by semicolon
+    resource_items = resource_str.split(';')
+    for resource_item in resource_items:
+        resource, quantity = resource_item.split(':')
+
+        # Split outcomes by semicolon
+        outcome_items = outcome_str.split(';')
+        for outcome_item in outcome_items:
+            outcome, quantity_outcome = outcome_item.split(':')
+
+            # Add edges for resource to outcome with quantities
+            G.add_edge(resource, outcome, quantity=int(quantity))
+
+# Print the nodes and edges of the graph
+print("Nodes:", G.nodes())
+print("Edges:")
+for edge in G.edges(data=True):
+    print(edge)

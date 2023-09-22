@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from Parser import Parser
 from Base import Base
 from Population import Population
+from dependency import generate_dependency, visualize_dependency
 
 
 def load_file(input_filename: str) -> object:
@@ -40,19 +41,21 @@ def main():
         # print(base.process)
         # print(base.optimize)
 
-        print("\nPrint Base info:\n")
-        print(base)
+        # print("\nPrint Base info:\n")
+        # print(base)
 
-    # Example usage
-    population_size = 10
-    population = Population(population_size)
-    initial_population = population.generate_population(base)
+    generate_dependency(base)
+    # visualize_dependency(base)
+    # # Example usage
+    # population_size = 10
+    # population = Population(population_size)
+    # initial_population = population.generate_population(base)
 
-    print("\nInitial Population:\n")
-    for i, individual in enumerate(initial_population):
-        # print(f"Individual {i+1}: {individual.individual}")
-        individual.calculate_fitness()
-        print(individual.fitness)
+    # print("\nInitial Population:\n")
+    # for i, individual in enumerate(initial_population):
+    #     # print(f"Individual {i+1}: {individual.individual}")
+    #     individual.calculate_fitness()
+    #     print(individual.fitness)
 
     # base.create_graph()
     # base.visualize_graph()
