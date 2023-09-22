@@ -201,30 +201,11 @@ class Base:
                     self.degrade.append(process.name)
         return self.degrade
 
-    def get_available_stocks(self) -> list:
-        stock_lst = []
-        for stock, quantity in self.stock.items():
-            if quantity > 0:
-                stock_lst.append(stock)
-        return stock_lst
-
     def get_available_processes(self) -> list:
         process_lst = []
         for process in self.process.values():
-            # stock_lst = self.get_available_stocks()
             if self.is_need_satisfied(process):
                 process_lst.append(process.name)
-        return process_lst
-
-    def get_available_processes2(self) -> list:
-        process_lst = []
-        for process in self.process.values():
-            # stock_lst = self.get_available_stocks()
-            if self.is_need_satisfied(process):
-                #for stock in process.need.keys():
-                #print(list(process.need.keys()), self.optimize)
-                if self.optimize != list(process.need.keys()):
-                    process_lst.append(process.name)
         return process_lst
 
     def is_runable_next_process(self, process: Process) -> bool:
