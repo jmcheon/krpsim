@@ -149,13 +149,20 @@ class Base:
                 return True
         return False
 
-    def is_reached_optimizing_process(self, process_name) -> bool:
-        optimize_process = self.get_max_optimize_process()
-        #if process_name == optimize_process.name and self.is_need_satisfied(optimize_process):
-        if process_name == optimize_process.name:
-            print('reached:', process_name)
-            return True
-        return False
+    def is_runnable_next_process(self, process: Process) -> bool:
+        stock = dict(self.stock)
+        for stock_name, quantity in process.need.items():
+            if self.is_stock_satisfied(stock, stock_name, quantity):
+                stock[stock_name] -= quantity
+            else:
+                return False
+
+        for stock_name, quantity in process.result.items():
+            stock[stock_name] += quantity
+        process_lst = self.get_available_process_lst()
+        if self.is_runnable_next_process == False:
+            return False
+        return True
 
     def get_max_optimize_stock_quantity(self) -> int:
         max_quantity = 0
@@ -165,14 +172,6 @@ class Base:
                     if max_quantity < process.result[optimize]:
                         max_quantity = process.result[optimize]
         return max_quantity
-
-    def get_optimize_processes(self) -> object:
-        process_lst = []
-        for process in self.process.values():
-            for optimize in self.optimize:
-                if optimize != 'time' and optimize in process.result.keys():
-                    process_lst.append(process.name)
-        return process_lst
 
     def get_max_optimize_process(self) -> object:
         max_quantity = self.get_max_optimize_stock_quantity()
@@ -184,44 +183,37 @@ class Base:
                         return process
         return None
 
-    def get_max_optimize_need_stocks(self) -> object:
+    def get_max_optimize_need_stocks(self) -> list:
         if self.max_optimize_process != None:
             process = self.process[self.max_optimize_process]
         else:
             process = self.get_max_optimize_process()
         self.max_optimize_need_stocks = list(process.need.keys())
         #self.max_optimize_need_stocks = process.need.keys()
-        print('optimize need stocks:', self.max_optimize_need_stocks)
+        #print('optimize need stocks:', self.max_optimize_need_stocks)
         return self.max_optimize_need_stocks
 
-    def get_degrade_process(self) -> list:
+    def get_optimize_process_lst(self) -> list:
+        process_lst = []
+        for process in self.process.values():
+            for optimize in self.optimize:
+                if optimize != 'time' and optimize in process.result.keys():
+                    process_lst.append(process.name)
+        return process_lst
+
+    def get_degrade_process_lst(self) -> list:
         for process in self.process.values():
             for optimize in self.optimize:
                 if optimize != 'time' and optimize in process.need.keys():
                     self.degrade.append(process.name)
         return self.degrade
 
-    def get_available_processes(self) -> list:
+    def get_available_process_lst(self) -> list:
         process_lst = []
         for process in self.process.values():
             if self.is_need_satisfied(process):
                 process_lst.append(process.name)
         return process_lst
-
-    def is_runable_next_process(self, process: Process) -> bool:
-        stock = dict(self.stock)
-        for stock_name, quantity in process.need.items():
-            if self.is_stock_satisfied(stock, stock_name, quantity):
-                stock[stock_name] -= quantity
-            else:
-                return False
-
-        for stock_name, quantity in process.result.items():
-            stock[stock_name] += quantity
-        process_lst = self.get_available_processes()
-        if self.is_runable_next_process == False:
-            return False
-        return True
 
     def run_process(self, process: Process) -> bool:
         need_dict = process.need
@@ -260,15 +252,14 @@ class Base:
             self.stock[stock] -= quantity
         # self.print_stocks()
 
-    def generate_walk2(self) -> list:
+    def generate_walk(self) -> list:
         walk = []
-        print(self.get_max_optimize_stock_quantity())
+        #print(self.get_max_optimize_stock_quantity())
         v = None
         i = 0
         j = 0
-        #while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
         while self.is_optimized() == False:
-            process_lst = self.get_available_processes()
+            process_lst = self.get_available_process_lst()
             #print(process_lst)
             if len(process_lst) == 0:
                 #print('no more process left')

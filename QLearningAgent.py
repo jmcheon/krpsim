@@ -28,7 +28,7 @@ class QLearningAgent(Base):
         self.q_table = np.zeros((self.num_states, self.num_actions))
         self.map_states()
         self.map_actions()
-        self.get_degrade_process()
+        self.get_degrade_process_lst()
         self.get_max_optimize_need_stocks()
 
     def set_resources(self, base):
@@ -37,7 +37,7 @@ class QLearningAgent(Base):
         self.process = dict(base.process)
         self.optimize = list(base.optimize)
 
-    def get_key_from_value(self, dictionary, target_value):
+    def get_key_from_value(self, dictionary: dict, target_value):
         for key, value in dictionary.items():
             if value == target_value:
                 return key
@@ -54,7 +54,7 @@ class QLearningAgent(Base):
             if any(qty == 0 for qty in need_stocks.values()):
                 return -1
 
-        if self.is_runable_next_process(self.process[process_name]) == False:
+        if self.is_runnable_next_process(self.process[process_name]) == False:
             return -100
         if all(elem in list(self.process[process_name].result.keys()) for elem in self.max_optimize_need_stocks):
             return 20
@@ -111,13 +111,12 @@ class QLearningAgent(Base):
         #print(action_num, process_name)
         return action_num, process_name
 
-    def generate_walk(self) -> list:
+    def generate_inventory(self) -> list:
         walk = []
         i = 0
         j = 0
-        #while not (self.is_reached_optimizing_process(v) and self.is_optimized()):
         while self.is_optimized() == False:
-            process_lst = self.get_available_processes()
+            process_lst = self.get_available_process_lst()
             if len(process_lst) == 0:
                 #print('no more process left')
                 return None
@@ -129,12 +128,12 @@ class QLearningAgent(Base):
             if self.run_process(self.process[process_name]):
                 walk.append(process_name)
 
-            next_process_lst = self.get_available_processes()
+            next_process_lst = self.get_available_process_lst()
             if len(next_process_lst) == 0:
                 #print('no more next process left')
                 #print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
-                if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_processes():
-                    #print(process_name, self.get_optimize_processes())
+                if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
+                    #print(process_name, self.get_optimize_process_lst())
                     self.undo_process(self.process[process_name])
                     self.q_table = np.zeros((self.num_states, self.num_actions))
                     return None
@@ -147,7 +146,7 @@ class QLearningAgent(Base):
                 # self.create_stock_image(process_name, j)
                 j += 1
             i += 1
-        print(f'return gen walk: {process_name}, i: {i}')
+        #print(f'return gen walk: {process_name}, i: {i}')
         # if i % 10 != 0:
             # self.create_stock_image(process_name, j)
         # self.save_animated_image(j)

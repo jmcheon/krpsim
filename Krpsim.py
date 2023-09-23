@@ -22,19 +22,17 @@ class Krpsim:
         return copy.copy(self)
 
     def generate_inventory(self):
-        pop = []
-        if len(self.agent.get_available_processes()) == 0:
+        if len(self.agent.get_available_process_lst()) == 0:
         #if self.agent.is_already_optimized():
             #self.agent.print_stocks()
             #print('done ...')
             return self
 
-        while len(pop) < 1:
-            walk = self.agent.generate_walk()
+        while True:
+            walk = self.agent.generate_inventory()
             if walk == None or len(walk) == 0:
                 self.stock = self.agent.stock
                 self.agent.stock = self.agent.initial_stock
-                #print(len(pop))
                 continue
             self.inventory.extend(walk)
             print('agent stock')
@@ -42,8 +40,8 @@ class Krpsim:
             self.stock = self.agent.stock
             self.agent.stock = self.agent.initial_stock
             if self.inventory != None and len(self.inventory) != 0:
-                pop.append(self.inventory)
-        #print('inventory:', pop) # for debugging
+                break
+        #print('inventory:', self.inventory) # for debugging
         return self
 
     def optimize(self):
