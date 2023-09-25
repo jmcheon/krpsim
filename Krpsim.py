@@ -45,7 +45,7 @@ class Krpsim:
             self.agent.stock = self.agent.initial_stock
             if self.inventory != None and len(self.inventory) != 0:
                 break
-        #print('\ninventory:', self.inventory) # for debugging
+        # print('\ninventory:', self.inventory) # for debugging
         return self
 
     # def print_final_stocks(self, stock: dict):
@@ -98,6 +98,7 @@ class Krpsim:
         biggest_cycle = 0
         item_before = None
         stock_copy = self.stock
+        print(self.inventory[0])
         for item in self.inventory:
             # print(stock_copy)
             # print(self.agent.process[item].nb_cycle)
@@ -110,25 +111,25 @@ class Krpsim:
             # print("b4", stock_copy)
             # print(self.agent.process[item].nb_cycle)
             stock_copy2 = {
-                key: stock_copy[key] - self.agent.process[item].need.get(key, 0) for key in stock_copy}
+                key: stock_copy[key] - self.agent.process[item[0]].need.get(key, 0) for key in stock_copy}
             # print("after", stock_copy2)
-            if item_before != None and self.agent.process[item].need.keys() != self.agent.process[item_before].need.keys():
+            if item_before != None and self.agent.process[item[0]].need.keys() != self.agent.process[item_before].need.keys():
                 total_cycle += biggest_cycle
             elif any(value < 0 for value in stock_copy2.values()):
                 total_cycle += biggest_cycle
 
             stock_copy = {
-                key: stock_copy[key] - self.agent.process[item].need.get(key, 0) for key in stock_copy}
+                key: stock_copy[key] - self.agent.process[item[0]].need.get(key, 0) for key in stock_copy}
             stock_copy = {
-                key: stock_copy[key] + self.agent.process[item].result.get(key, 0) for key in stock_copy}
+                key: stock_copy[key] + self.agent.process[item[0]].result.get(key, 0) for key in stock_copy}
             # print("final", stock_copy)
-            if (int(self.agent.process[item].nb_cycle) > biggest_cycle):
-                biggest_cycle = int(self.agent.process[item].nb_cycle)
-            print(f"{total_cycle}:{item}")
-            item_before = item
+            if (int(self.agent.process[item[0]].nb_cycle) > biggest_cycle):
+                biggest_cycle = int(self.agent.process[item[0]].nb_cycle)
+            print(f"{total_cycle}:{item[0]}")
+            item_before = item[0]
 
         total_cycle += int(
-            self.agent.process[self.inventory[len(self.inventory) - 1]].nb_cycle)
+            self.agent.process[self.inventory[len(self.inventory) - 1][0]].nb_cycle)
 
         # if finite is True:
         #     microseconds_time = round((current_time - start_time) *
