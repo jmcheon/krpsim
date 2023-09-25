@@ -92,7 +92,9 @@ class Krpsim:
                 finite = True
                 break
         print(" done.")
-
+        print("Main walk")
+        for item in self.inventory:
+            print(f"{self.agent.process[item].nb_cycle}:{item}")
         if finite is True:
             microseconds_time = round((current_time - start_time) *
                                       100000)

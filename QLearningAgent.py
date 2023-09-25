@@ -148,4 +148,5 @@ class QLearningAgent(Base):
             next_state = self.state_mapping[tuple(next_process_lst)]
             self.update_q_table(state_num, action_num,
                                 self.get_reward(process_name), next_state)
+
         return walk
