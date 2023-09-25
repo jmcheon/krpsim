@@ -5,6 +5,7 @@ import random
 import networkx as nx
 import matplotlib.pyplot as plt
 
+
 class Base:
 
     def __init__(self):
@@ -17,6 +18,7 @@ class Base:
         self.max_optimize_process = None
         self.max_optimize_need_stocks = None
         self._graph = nx.DiGraph()
+        self._verbose = None
 
     def add_stock(self, stock_name: str, quantity: int):
         if not isinstance(stock_name, str) or not isinstance(quantity, int):
@@ -68,6 +70,10 @@ class Base:
     def graph(self):
         return self._graph
 
+    @property
+    def verbose(self):
+        return self._verbose
+
     @initial_stock.setter
     def initial_stock(self, stock):
         # print("setting initial stock")
@@ -109,7 +115,11 @@ class Base:
         if isinstance(graph, nx.DiGraph):
             self._graph = graph
         else:
-            raise ValueError('Gragph must be an instance of networkx.DiGraph')
+            raise ValueError('Graph must be an instance of networkx.DiGraph')
+
+    @verbose.setter
+    def verbose(self, verbose):
+        self._verbose = verbose
 
     def copy(self):
         return copy.deepcopy(self)
@@ -143,9 +153,9 @@ class Base:
         # self.print_stocks()
         for stock in self.optimize:
             if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
-            #if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
-            #print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
-            #if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
+                # if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
+                # print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
+                # if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
                 return True
         return False
 
@@ -189,8 +199,8 @@ class Base:
         else:
             process = self.get_max_optimize_process()
         self.max_optimize_need_stocks = list(process.need.keys())
-        #self.max_optimize_need_stocks = process.need.keys()
-        #print('optimize need stocks:', self.max_optimize_need_stocks)
+        # self.max_optimize_need_stocks = process.need.keys()
+        # print('optimize need stocks:', self.max_optimize_need_stocks)
         return self.max_optimize_need_stocks
 
     def get_optimize_process_lst(self) -> list:
@@ -219,8 +229,8 @@ class Base:
         need_dict = process.need
         # print(need_dict)
         for stock_name, quantity in need_dict.items():
-            #if process.name == 'vente_boite':
-                #print('qty:', self.stock[stock])
+            # if process.name == 'vente_boite':
+            # print('qty:', self.stock[stock])
             if self.is_stock_satisfied(self.stock, stock_name, quantity):
                 self.stock[stock_name] -= quantity
             else:
@@ -229,11 +239,11 @@ class Base:
         result_dict = process.result
         # print(result_dict)
         for stock, quantity in result_dict.items():
-            if process.name == 'vente_boite':
-                #print(self.max_optimize_need_stocks)
+            if self.verbose:
+                # print(self.max_optimize_need_stocks)
                 print('result:', self.stock[stock], 'adding:', quantity)
             self.stock[stock] += quantity
-        if process.name == 'vente_boite':
+        if self.verbose:
             print(f'run: ', process.name)
             print(need_dict)
             print(result_dict)
@@ -254,17 +264,17 @@ class Base:
 
     def generate_walk(self) -> list:
         walk = []
-        #print(self.get_max_optimize_stock_quantity())
+        # print(self.get_max_optimize_stock_quantity())
         v = None
         i = 0
         j = 0
         while self.is_optimized() == False:
             process_lst = self.get_available_process_lst()
-            #print(process_lst)
+            # print(process_lst)
             if len(process_lst) == 0:
-                #print('no more process left')
+                # print('no more process left')
                 return None
-                #return walk
+                # return walk
             v = random.choice(process_lst)
             if self.run_process(self.process[v]):
                 if v == 'vente_boite':
@@ -277,32 +287,35 @@ class Base:
             i += 1
         print(f'return gen walk: {v}, i: {i}')
         # if i % 10 != 0:
-            # self.create_stock_image(v, j)
+        # self.create_stock_image(v, j)
         # self.save_animated_image(j)
         return walk
 
     def create_stock_image(self, process_name, i):
-        plt.figure(figsize=(10,6))
-        colors = ['orange' if stock in self.optimize else 'skyblue' for stock in self.stock.keys()]
+        plt.figure(figsize=(10, 6))
+        colors = [
+            'orange' if stock in self.optimize else 'skyblue' for stock in self.stock.keys()]
 
         bars = plt.bar(self.stock.keys(), self.stock.values(), color=colors)
-        #plt.title(f'Stocks after iteration {i}')
-        plt.title(f'Stocks after iteration {i * 10}\nCurrent process: {process_name}')
+        # plt.title(f'Stocks after iteration {i}')
+        plt.title(
+            f'Stocks after iteration {i * 10}\nCurrent process: {process_name}')
         plt.xlabel('Stock')
         plt.ylabel('Quantity')
-        
+
         # Rotate x-axis labels
         plt.setp(plt.gca().get_xticklabels(), rotation=45)
-        
+
         # Add quantity labels on top of each bar
         for bar in bars:
             yval = bar.get_height()
-            plt.text(bar.get_x() + bar.get_width()/2.0, yval, int(yval), va='bottom')  # va: vertical alignment
-        
+            plt.text(bar.get_x() + bar.get_width()/2.0, yval,
+                     int(yval), va='bottom')  # va: vertical alignment
+
         plt.tight_layout()
         plt.savefig(f'stock_images/stock_{i}.png')
 
-        #plt.show()
+        # plt.show()
     def save_animated_image(self, i):
         print(f"Creating an animated image... i: {i}")
         images = []

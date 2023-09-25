@@ -25,6 +25,7 @@ class QLearningAgent(Base):
         if verbose:
             print('num_states:', 2 ** (len(self.process)))
             print('num_actions:', (len(self.process)))
+            self.verbose = verbose
         # self.print_stocks()
         self.num_states = 2 ** len(self.process)
         self.num_actions = len(self.process)

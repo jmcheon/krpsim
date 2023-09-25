@@ -97,6 +97,7 @@ class Krpsim:
             microseconds_time = round((current_time - start_time) *
                                       100000)
             print(f"no more process doable at time {microseconds_time}.")
+
         print("Stock :")
         for key, value in new_indi.stock.items():
             print(f" {key} => {value}")
