@@ -1,4 +1,5 @@
 import copy
+import time
 
 
 class Krpsim:
@@ -47,14 +48,29 @@ class Krpsim:
         # print('inventory:', self.inventory) # for debugging
         return self
 
-    def optimize(self):
+    # def print_final_stocks(self, stock: dict):
+    #     print("Stock :")
+    #     for key, value in stock.items():
+    #         print(f" {key} => {value}")
 
+    def optimize(self):
         if self.verbose:
             print('start')
             print('inventory.stock:', self.stock)
+        else:
+            print("Evaluating ", end='')
+
         prev_indi = self.agent.copy()
         prev_indi.init_stocks()
         indi = self.copy()
+
+        # for time measurement
+        dot_interval = 0.5
+        start_time = time.time()
+        next_dot_time = start_time + dot_interval
+
+        # for finite checking:
+        finite = False
         while indi.stock != prev_indi.stock:
             prev_indi = indi
             new_indi = indi.copy()
@@ -64,4 +80,24 @@ class Krpsim:
             if self.verbose:
                 print('new stock:', new_indi.stock)
             indi = new_indi.copy()
-        print('end')
+
+            current_time = time.time()
+            if current_time >= next_dot_time:
+                print('.', end='', flush=True)
+                next_dot_time = current_time + dot_interval
+
+            if current_time - start_time >= self.delay:
+                break
+            elif indi.stock == prev_indi.stock:
+                finite = True
+                break
+        print(" done.")
+
+        if finite is True:
+            microseconds_time = round((current_time - start_time) *
+                                      100000)
+            print(f"no more process doable at time {microseconds_time}.")
+        print("Stock :")
+        for key, value in new_indi.stock.items():
+            print(f" {key} => {value}")
+        # print_final_stocks(self, new_indi.stock)
