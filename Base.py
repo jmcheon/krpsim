@@ -15,6 +15,7 @@ class Base:
         self._process = {}
         self._optimize = []
         self._degrade = []
+        self.max_optimize_preprocess = None
         self.max_optimize_process = None
         self.max_optimize_need_stocks = None
         self._graph = nx.DiGraph()
@@ -130,14 +131,14 @@ class Base:
             print(f'{stock}:{quantity}')
         print('--------------------')
 
-    def print_stocks(self):
+    def print_stocks(self, stock_dict: dict):
         print('--------------')
-        for stock, quantity in self.stock.items():
+        for stock, quantity in stock_dict.items():
             print(f'{stock}:{quantity}')
         print('--------------')
 
-    def is_stock_satisfied(self, stock: dict, stock_name: str, quantity: int) -> bool:
-        if stock[stock_name] >= quantity:
+    def is_stock_satisfied(self, stock_dict: dict, stock_name: str, quantity: int) -> bool:
+        if stock_dict[stock_name] >= quantity:
             return True
         return False
 
@@ -150,7 +151,6 @@ class Base:
         return True
 
     def is_optimized(self) -> bool:
-        # self.print_stocks()
         for stock in self.optimize:
             if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
                 # if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
@@ -159,8 +159,8 @@ class Base:
                 return True
         return False
 
-    def is_runnable_next_process(self, process: Process) -> bool:
-        stock = dict(self.stock)
+    def is_runnable_next_process(self, stock_dict: dict, process: Process) -> bool:
+        stock = dict(stock_dict)
         for stock_name, quantity in process.need.items():
             if self.is_stock_satisfied(stock, stock_name, quantity):
                 stock[stock_name] -= quantity
@@ -174,6 +174,15 @@ class Base:
             return False
         return True
 
+    def get_max_optimize_prestock_quantity(self) -> int:
+        max_quantity = 0
+        for process in self.process.values():
+            for optimize in self.max_optimize_need_stocks:
+                if optimize != 'time' and optimize in process.result.keys():
+                    if max_quantity < process.result[optimize]:
+                        max_quantity = process.result[optimize]
+        return max_quantity
+
     def get_max_optimize_stock_quantity(self) -> int:
         max_quantity = 0
         for process in self.process.values():
@@ -182,6 +191,16 @@ class Base:
                     if max_quantity < process.result[optimize]:
                         max_quantity = process.result[optimize]
         return max_quantity
+
+    def get_max_optimize_preprocess(self) -> object:
+        max_quantity = self.get_max_optimize_stock_quantity()
+        for process in self.process.values():
+            for optimize in self.max_optimize_need_stocks:
+                if optimize != 'time' and optimize in process.result.keys():
+                    if max_quantity == process.result[optimize]:
+                        self.max_optimize_preprocess = process
+                        return process
+        return None
 
     def get_max_optimize_process(self) -> object:
         max_quantity = self.get_max_optimize_stock_quantity()
@@ -225,29 +244,38 @@ class Base:
                 process_lst.append(process.name)
         return process_lst
 
-    def run_process(self, process: Process) -> bool:
+    def run_process_need(self, stock_dict: dict, process: Process) -> bool:
         need_dict = process.need
         # print(need_dict)
         for stock_name, quantity in need_dict.items():
             # if process.name == 'vente_boite':
             # print('qty:', self.stock[stock])
-            if self.is_stock_satisfied(self.stock, stock_name, quantity):
-                self.stock[stock_name] -= quantity
+            if self.is_stock_satisfied(stock_dict, stock_name, quantity):
+                stock_dict[stock_name] -= quantity
             else:
                 return False
 
+    def run_process_result(self, stock_dict: dict, process: Process) -> bool:
         result_dict = process.result
         # print(result_dict)
         for stock, quantity in result_dict.items():
             if self.verbose:
                 # print(self.max_optimize_need_stocks)
-                print('result:', self.stock[stock], 'adding:', quantity)
-            self.stock[stock] += quantity
+                print('result:', stock_dict[stock], 'adding:', quantity)
+            stock_dict[stock] += quantity
         if self.verbose:
             print(f'run: ', process.name)
             print(need_dict)
             print(result_dict)
-            self.print_stocks()
+            self.print_stocks(self.stock)
+        return True
+
+    def run_process(self, stock_dict: dict, process: Process) -> bool:
+        if self.run_process_need(stock_dict, process) == False:
+            return False
+        if self.run_process_result(stock_dict, process) == False:
+            return False
+        #self.print_stocks(self.stock)
         return True
 
     def undo_process(self, process: Process):
@@ -276,7 +304,7 @@ class Base:
                 return None
                 # return walk
             v = random.choice(process_lst)
-            if self.run_process(self.process[v]):
+            if self.run_process(self.stock, self.process[v]):
                 if v == 'vente_boite':
                     print('adding:', v)
                 walk.append(v)

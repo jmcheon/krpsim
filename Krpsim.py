@@ -27,7 +27,7 @@ class Krpsim:
     def generate_inventory(self):
         if len(self.agent.get_available_process_lst()) == 0:
             # if self.agent.is_already_optimized():
-            # self.agent.print_stocks()
+            # self.agent.print_stocks(self.agent.stock)
             # print('done ...')
             return self
 
@@ -40,12 +40,12 @@ class Krpsim:
             self.inventory.extend(walk)
             if self.verbose:
                 print('agent stock')
-                self.agent.print_stocks()
+                self.agent.print_stocks(self.agent.stock)
             self.stock = self.agent.stock
             self.agent.stock = self.agent.initial_stock
             if self.inventory != None and len(self.inventory) != 0:
                 break
-        # print('inventory:', self.inventory) # for debugging
+        #print('\ninventory:', self.inventory) # for debugging
         return self
 
     # def print_final_stocks(self, stock: dict):

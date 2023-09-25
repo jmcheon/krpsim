@@ -45,7 +45,8 @@ def main():
 
         agent = QLearningAgent()
         parser = Parser(agent)
-        parser.parse(input_file)
+        if parser.parse(input_file) == False:
+            sys.exit(1)
         agent.initial_stock = agent.stock
         if args.verbose:
             agent.print_initial_stocks()

@@ -4,7 +4,7 @@ class Process:
         self.name = name
         self._need = {}
         self._result = {} 
-        self.nb_cycle = nb_cycle
+        self.nb_cycle = int(nb_cycle)
 
         self.add_part(self._need, need)
         if len(result) != 0:
