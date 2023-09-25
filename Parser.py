@@ -170,7 +170,6 @@ class Parser:
                 return False
         else:
             print(f"Syntax check passed successfully.")
-            print(f"Nice file! ")
         return True
 
     def __str__(self):
