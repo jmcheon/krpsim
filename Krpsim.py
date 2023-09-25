@@ -32,7 +32,7 @@ class Krpsim:
             return self
 
         while True:
-            walk = self.agent.generate_inventory()
+            walk = self.agent.generate_inventory(self.inventory)
             if walk == None or len(walk) == 0:
                 self.stock = self.agent.stock
                 self.agent.stock = self.agent.initial_stock
@@ -45,7 +45,7 @@ class Krpsim:
             self.agent.stock = self.agent.initial_stock
             if self.inventory != None and len(self.inventory) != 0:
                 break
-        # print('\ninventory:', self.inventory) # for debugging
+        #print('\ninventory:', self.inventory) # for debugging
         return self
 
     # def print_final_stocks(self, stock: dict):
@@ -94,11 +94,14 @@ class Krpsim:
         print(" done.")
 
         print("Main walk")
-        total_cycle = 0
+        if len(self.inventory) != 0:
+            total_cycle = self.inventory[-1][1]
+        else:
+            total_cycle = 0
         biggest_cycle = 0
         item_before = None
         stock_copy = self.stock
-        print(self.inventory[0])
+        #print(self.inventory[0])
         for item in self.inventory:
             # print(stock_copy)
             # print(self.agent.process[item].nb_cycle)
@@ -114,9 +117,11 @@ class Krpsim:
                 key: stock_copy[key] - self.agent.process[item[0]].need.get(key, 0) for key in stock_copy}
             # print("after", stock_copy2)
             if item_before != None and self.agent.process[item[0]].need.keys() != self.agent.process[item_before].need.keys():
-                total_cycle += biggest_cycle
+                pass
+                #total_cycle += biggest_cycle
             elif any(value < 0 for value in stock_copy2.values()):
-                total_cycle += biggest_cycle
+                pass
+                #total_cycle += biggest_cycle
 
             stock_copy = {
                 key: stock_copy[key] - self.agent.process[item[0]].need.get(key, 0) for key in stock_copy}
@@ -125,7 +130,7 @@ class Krpsim:
             # print("final", stock_copy)
             if (int(self.agent.process[item[0]].nb_cycle) > biggest_cycle):
                 biggest_cycle = int(self.agent.process[item[0]].nb_cycle)
-            print(f"{total_cycle}:{item[0]}")
+            print(f"{item[1]}:{item[0]}")
             item_before = item[0]
 
         total_cycle += int(

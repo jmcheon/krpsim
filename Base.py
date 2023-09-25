@@ -263,11 +263,6 @@ class Base:
                 # print(self.max_optimize_need_stocks)
                 print('result:', stock_dict[stock], 'adding:', quantity)
             stock_dict[stock] += quantity
-        if self.verbose:
-            print(f'run: ', process.name)
-            print(need_dict)
-            print(result_dict)
-            self.print_stocks(self.stock)
         return True
 
     def run_process(self, stock_dict: dict, process: Process) -> bool:
@@ -275,7 +270,9 @@ class Base:
             return False
         if self.run_process_result(stock_dict, process) == False:
             return False
-        #self.print_stocks(self.stock)
+        if self.verbose:
+            print(f'run: ', process.name)
+            self.print_stocks(self.stock)
         return True
 
     def undo_process(self, process: Process):
