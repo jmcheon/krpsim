@@ -60,7 +60,7 @@ def main():
             print(agent)
 
     krpsim = Krpsim(agent, delay_seconds, args.verbose)
-    krpsim.optimize()
+    krpsim.run()
 
     if args.graph:
         agent.create_graph()
