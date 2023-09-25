@@ -22,7 +22,10 @@ def main():
     argparser.add_argument("delay", nargs="?",
                            help="the waiting time the program will not have to exceed")
 
-    argparser.add_argument("-v", "--visualize", action="store_true",
+    argparser.add_argument("-g", "--graph", action="store_true",
+                           help="Visualize the graph")
+
+    argparser.add_argument("-v", "--verbose", action="store_true",
                            help="Visualize the graph")
 
     args = argparser.parse_args()
@@ -44,16 +47,21 @@ def main():
         parser = Parser(agent)
         parser.parse(input_file)
         agent.initial_stock = agent.stock
-        agent.print_initial_stocks()
-        agent.init_agent()
+        if args.verbose:
+            agent.print_initial_stocks()
+        agent.init_agent(args.verbose)
 
-        print("\nPrint Base info:\n")
-        print(agent)
+        print(
+            f"Nice file! {len(agent.process)} processes, {len(agent.initial_stock)} stocks, {len(agent.optimize)} to optimize")
 
-    krpsim = Krpsim(agent, delay_seconds)
+        if args.verbose:
+            print("\nPrint Base info:\n")
+            print(agent)
+
+    krpsim = Krpsim(agent, delay_seconds, args.verbose)
     krpsim.optimize()
 
-    if args.visualize:
+    if args.graph:
         agent.create_graph()
         agent.visualize_graph()
 

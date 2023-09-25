@@ -1,11 +1,13 @@
 import copy
 
+
 class Krpsim:
-    def __init__(self, agent, delay):
+    def __init__(self, agent, delay, verbose):
         self.inventory = []
         self.delay = delay
         self.agent = agent.copy()
         self.stock = agent.stock
+        self.verbose = verbose
 
     @property
     def stock(self):
@@ -23,9 +25,9 @@ class Krpsim:
 
     def generate_inventory(self):
         if len(self.agent.get_available_process_lst()) == 0:
-        #if self.agent.is_already_optimized():
-            #self.agent.print_stocks()
-            #print('done ...')
+            # if self.agent.is_already_optimized():
+            # self.agent.print_stocks()
+            # print('done ...')
             return self
 
         while True:
@@ -35,21 +37,23 @@ class Krpsim:
                 self.agent.stock = self.agent.initial_stock
                 continue
             self.inventory.extend(walk)
-            print('agent stock')
-            self.agent.print_stocks()
+            if self.verbose:
+                print('agent stock')
+                self.agent.print_stocks()
             self.stock = self.agent.stock
             self.agent.stock = self.agent.initial_stock
             if self.inventory != None and len(self.inventory) != 0:
                 break
-        #print('inventory:', self.inventory) # for debugging
+        # print('inventory:', self.inventory) # for debugging
         return self
 
     def optimize(self):
 
-        print('start')
-        print('inventory.stock:', self.stock)
+        if self.verbose:
+            print('start')
+            print('inventory.stock:', self.stock)
         prev_indi = self.agent.copy()
-        prev_indi.init_stocks() 
+        prev_indi.init_stocks()
         indi = self.copy()
         while indi.stock != prev_indi.stock:
             prev_indi = indi
@@ -57,6 +61,7 @@ class Krpsim:
             new_indi.agent.stock = indi.stock
             new_indi.agent.initial_stock = indi.stock
             new_indi.generate_inventory()
-            print('new stock:', new_indi.stock)
+            if self.verbose:
+                print('new stock:', new_indi.stock)
             indi = new_indi.copy()
         print('end')
