@@ -15,7 +15,6 @@ class Base:
         self._process = {}
         self._optimize = []
         self._degrade = []
-        self.max_optimize_preprocess = None
         self.max_optimize_process = None
         self.max_optimize_need_stocks = None
         self._graph = nx.DiGraph()
@@ -174,15 +173,6 @@ class Base:
             return False
         return True
 
-    def get_max_optimize_prestock_quantity(self) -> int:
-        max_quantity = 0
-        for process in self.process.values():
-            for optimize in self.max_optimize_need_stocks:
-                if optimize != 'time' and optimize in process.result.keys():
-                    if max_quantity < process.result[optimize]:
-                        max_quantity = process.result[optimize]
-        return max_quantity
-
     def get_max_optimize_stock_quantity(self) -> int:
         max_quantity = 0
         for process in self.process.values():
@@ -191,16 +181,6 @@ class Base:
                     if max_quantity < process.result[optimize]:
                         max_quantity = process.result[optimize]
         return max_quantity
-
-    def get_max_optimize_preprocess(self) -> object:
-        max_quantity = self.get_max_optimize_stock_quantity()
-        for process in self.process.values():
-            for optimize in self.max_optimize_need_stocks:
-                if optimize != 'time' and optimize in process.result.keys():
-                    if max_quantity == process.result[optimize]:
-                        self.max_optimize_preprocess = process
-                        return process
-        return None
 
     def get_max_optimize_process(self) -> object:
         max_quantity = self.get_max_optimize_stock_quantity()

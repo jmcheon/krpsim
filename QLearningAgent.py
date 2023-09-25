@@ -35,7 +35,6 @@ class QLearningAgent(Base):
         self.map_actions()
         self.get_degrade_process_lst()
         self.get_max_optimize_need_stocks()
-        self.get_max_optimize_preprocess()
 
     def set_resources(self, base):
         self.initial_stock = dict(base.initial_stock)
@@ -97,10 +96,6 @@ class QLearningAgent(Base):
         if self.is_runnable_next_process(self.stock, self.process[process_name]) == False:
             return -100
         if all(elem in list(self.process[process_name].result.keys()) for elem in self.max_optimize_need_stocks):
-            #print(process_name, self.process[process_name].name)
-            #if process_name == self.process[process_name].name: 
-                #print('matching..', process_name)
-                #return 30
             return 20
         if process_name in self.degrade:
             return -20
@@ -108,28 +103,6 @@ class QLearningAgent(Base):
             return 50
         else:
             return 0
-
-    def get_valid_available_process_lst(self, process_lst):
-        action_num_lst = []
-        process_name_lst = []
-        stock = dict(self.stock)
-        if 'time' in self.optimize:
-            #print('time in optimize')
-            while len(process_lst) != 0:
-                action_num, process_name = self.get_valid_available_process(
-                    process_lst)
-                if self.run_process(stock, self.process[process_name]) == False:
-                    break
-                action_num_lst.append(action_num)
-                process_name_lst.append(process_name)
-        else:
-            action_num, process_name = self.get_valid_available_process(
-                process_lst)
-            action_num_lst.append(action_num)
-            process_name_lst.append(process_name)
-            #return action_num, process_name
-        print(action_num, process_name_lst)
-        return action_num_lst, process_name_lst
 
     def get_valid_available_process(self, process_lst):
         state_num = self.state_mapping[tuple(process_lst)]
@@ -171,12 +144,8 @@ class QLearningAgent(Base):
                 self.run_process_need(stock, self.process[process_name])
                 if self.is_runnable_next_process(stock, self.process[process_name]) == False:
                     stock = dict(self.stock)
-                    #print('now')
-                    #print('is:', self.process[last_process_name[0]].nb_cycle)
-                    #self.cycle += int(self.process[last_process_name[0]].nb_cycle)
                     self.cycle += int(max_cycle)
                     max_cycle = 0
-                #print(f'\nwalk: {walk} last:', last_process_name)
             elif len(inventory) != 0:
                 last_process_name = inventory[-1]
                 if max_cycle < self.process[last_process_name[0]].nb_cycle:
@@ -194,21 +163,6 @@ class QLearningAgent(Base):
 
             next_process_lst = self.get_available_process_lst()
             if len(next_process_lst) == 0:
-                if len(walk) != 0:
-                    last_process_name = walk[-1]
-                    if max_cycle < self.process[last_process_name[0]].nb_cycle:
-                        max_cycle = self.process[last_process_name[0]].nb_cycle
-                    #print(f'next max_cycle:{max_cycle}')
-                    self.run_process_need(stock, self.process[process_name])
-                    if self.is_runnable_next_process(stock, self.process[process_name]) == False:
-                        stock = dict(self.stock)
-                        #print('now')
-                        #print('is:', self.process[last_process_name[0]].nb_cycle)
-                        #self.cycle += int(self.process[last_process_name[0]].nb_cycle)
-                        #self.cycle += int(max_cycle)
-                        #walk[-1][1] += int(max_cycle)
-                        max_cycle = 0
-                #print(f'\nwalk: {walk} last:', last_process_name)
                 # print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
                 if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
                     # print(process_name, self.get_optimize_process_lst())
@@ -217,43 +171,10 @@ class QLearningAgent(Base):
                         (self.num_states, self.num_actions))
                     self.cycle = 0
                     #print('return None')
-                    return None
                 else:
                     return walk
             next_state = self.state_mapping[tuple(next_process_lst)]
             self.update_q_table(state_num, action_num,
                                 self.get_reward(process_name), next_state)
-
-        return walk
-
-    def generate_inventory2(self) -> list:
-        walk = []
-        while self.is_optimized() == False:
-            process_lst = self.get_available_process_lst()
-            if len(process_lst) == 0:
-                return None
-            state_num = self.state_mapping[tuple(process_lst)]
-            # print('mapping num:', state_num)
-            action_num_lst, process_name_lst = self.get_valid_available_process_lst(
-                process_lst)
-            # print(f'action_num: {action_num}, {process_name}')
-            for (action_num, process_name) in (zip(action_num_lst, process_name_lst)):
-                if self.run_process(self.stock, self.process[process_name]):
-                    walk.append(process_name)
-
-                next_process_lst = self.get_available_process_lst()
-                if len(next_process_lst) == 0:
-                    # print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
-                    if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
-                        # print(process_name, self.get_optimize_process_lst())
-                        self.undo_process(self.process[process_name])
-                        self.q_table = np.zeros(
-                            (self.num_states, self.num_actions))
-                        return None
-                    else:
-                        return walk
-                next_state = self.state_mapping[tuple(next_process_lst)]
-                self.update_q_table(state_num, action_num,
-                                    self.get_reward(process_name), next_state)
 
         return walk
