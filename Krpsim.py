@@ -95,12 +95,35 @@ class Krpsim:
 
         print("Main walk")
         total_cycle = 0
-        cycle_before = 0
+        biggest_cycle = 0
         item_before = None
+        stock_copy = self.stock
         for item in self.inventory:
-            if item_before != item:
-                total_cycle += cycle_before
-            cycle_before = int(self.agent.process[item].nb_cycle)
+            # print(stock_copy)
+            # print(self.agent.process[item].nb_cycle)
+            # stock_copy = {
+            #     key: stock_copy[key] - self.agent.process[item].need.get(key, 0) for key in stock_copy}
+            # if item_before != None and self.agent.process[item].need.keys() != self.agent.process[item_before].need.keys():
+            #     total_cycle += biggest_cycle
+            # item_before = item
+
+            # print("b4", stock_copy)
+            # print(self.agent.process[item].nb_cycle)
+            stock_copy2 = {
+                key: stock_copy[key] - self.agent.process[item].need.get(key, 0) for key in stock_copy}
+            # print("after", stock_copy2)
+            if item_before != None and self.agent.process[item].need.keys() != self.agent.process[item_before].need.keys():
+                total_cycle += biggest_cycle
+            elif any(value < 0 for value in stock_copy2.values()):
+                total_cycle += biggest_cycle
+
+            stock_copy = {
+                key: stock_copy[key] - self.agent.process[item].need.get(key, 0) for key in stock_copy}
+            stock_copy = {
+                key: stock_copy[key] + self.agent.process[item].result.get(key, 0) for key in stock_copy}
+            # print("final", stock_copy)
+            if (int(self.agent.process[item].nb_cycle) > biggest_cycle):
+                biggest_cycle = int(self.agent.process[item].nb_cycle)
             print(f"{total_cycle}:{item}")
             item_before = item
 
