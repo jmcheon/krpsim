@@ -92,13 +92,28 @@ class Krpsim:
                 finite = True
                 break
         print(" done.")
+
         print("Main walk")
+        total_cycle = 0
+        cycle_before = 0
+        item_before = None
         for item in self.inventory:
-            print(f"{self.agent.process[item].nb_cycle}:{item}")
+            if item_before != item:
+                total_cycle += cycle_before
+            cycle_before = int(self.agent.process[item].nb_cycle)
+            print(f"{total_cycle}:{item}")
+            item_before = item
+
+        total_cycle += int(
+            self.agent.process[self.inventory[len(self.inventory) - 1]].nb_cycle)
+
+        # if finite is True:
+        #     microseconds_time = round((current_time - start_time) *
+        #                               100000)
+        #     print(f"no more process doable at time {microseconds_time}")
+
         if finite is True:
-            microseconds_time = round((current_time - start_time) *
-                                      100000)
-            print(f"no more process doable at time {microseconds_time}.")
+            print(f"no more process doable at time {total_cycle + 1}")
 
         print("Stock :")
         for key, value in new_indi.stock.items():
