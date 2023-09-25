@@ -19,11 +19,22 @@ def main():
         description="krpsim")
     argparser.add_argument("input_filename", nargs="?",
                            help="Path to the input file")
+    argparser.add_argument("delay", nargs="?",
+                           help="the waiting time the program will not have to exceed")
+
+    argparser.add_argument("-v", "--visualize", action="store_true",
+                           help="Visualize the graph")
 
     args = argparser.parse_args()
 
-    if args.input_filename is None:
+    if args.input_filename is None or args.delay is None:
         argparser.print_help()
+        sys.exit(1)
+
+    try:
+        delay_seconds = int(args.delay)
+    except ValueError:
+        print(f"Error: '{args.delay}' is not a valid integer for delay")
         sys.exit(1)
 
     if args.input_filename:
@@ -39,12 +50,12 @@ def main():
         print("\nPrint Base info:\n")
         print(agent)
 
-
-    krpsim = Krpsim(agent, 0)
+    krpsim = Krpsim(agent, delay_seconds)
     krpsim.optimize()
 
-    # agent.create_graph()
-    # agent.visualize_graph()
+    if args.visualize:
+        agent.create_graph()
+        agent.visualize_graph()
 
 
 if __name__ == "__main__":
