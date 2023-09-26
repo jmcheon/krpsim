@@ -127,14 +127,17 @@ class QLearningAgent(Base):
         return action_num, process_name
 
     def generate_inventory(self, inventory) -> list:
+        #if len(self.next_process_lst) == 0:
+            #print(self.stock, '\n', self.initial_stock)
         self.walk = []
         stock = dict(self.stock)
         max_cycle = 0
         while self.is_optimized() == False:
             process_lst = self.get_available_process_lst()
-            #print(process_lst)
+            print('process_lst:', process_lst)
             #self.print_stocks(self.stock)
             if len(process_lst) == 0:
+                print('null return None')
                 return None
             state_num = self.state_mapping[tuple(process_lst)]
             #print('mapping num:', state_num)
@@ -167,12 +170,12 @@ class QLearningAgent(Base):
             if self.run_process(self.stock, self.process[process_name]):
                 #print('run')
                 self.walk.append([process_name, self.cycle])
-                #self.print_stocks(self.stock)
-                #print(self.walk[-1])
+                self.print_stocks(self.stock)
+                #print(self.walk)
 
-            next_process_lst = self.get_available_process_lst()
-            #print(next_process_lst)
-            if len(next_process_lst) == 0:
+            self.next_process_lst = self.get_available_process_lst()
+            print(self.next_process_lst)
+            if len(self.next_process_lst) == 0:
                 # print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
                 if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
                     # print(process_name, self.get_optimize_process_lst())
@@ -180,13 +183,15 @@ class QLearningAgent(Base):
                     self.q_table = np.zeros(
                         (self.num_states, self.num_actions))
                     self.cycle = 0
-                    #print('None')
+                    print('None')
                     return None
                 else:
+                    print('next null return walk')
                     return self.walk
-            #print(len(next_process_lst), next_process_lst)
-            next_state = self.state_mapping[tuple(next_process_lst)]
+            #print(len(self.next_process_lst), self.next_process_lst)
+            next_state = self.state_mapping[tuple(self.next_process_lst)]
             self.update_q_table(state_num, action_num,
                                 self.get_reward(process_name), next_state)
 
+        print('fin return walk')
         return self.walk

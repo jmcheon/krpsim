@@ -123,7 +123,7 @@ class Krpsim:
                 self.agent.process[self.inventory[len(self.inventory) - 1][0]].nb_cycle)
             else:
                 total_cycle = float('inf')
-            #print(f'{(self.inventory)} {total_cycle}')
+            print(f'{(self.inventory)} {total_cycle}')
             #print(f'time: {total_cycle}')
             if min_total_cycle > total_cycle:
                 min_total_cycle = total_cycle
@@ -139,7 +139,7 @@ class Krpsim:
 
     def print_trace(self):
         print("Main walk")
-        #print(self.inventory)
+        print(self.inventory)
         if len(self.inventory) != 0:
             total_cycle = self.inventory[-1][1]
         else:

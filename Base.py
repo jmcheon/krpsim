@@ -15,6 +15,8 @@ class Base:
         self._process = {}
         self._optimize = []
         self._degrade = []
+        self.finished = False
+        self.next_process_lst = []
         self.max_optimize_process = None
         self.max_optimize_need_stocks = None
         self._graph = nx.DiGraph()
