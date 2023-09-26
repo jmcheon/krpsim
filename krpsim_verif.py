@@ -28,6 +28,19 @@ def load_file(input_filename: str) -> object:
     return input_file
 
 
+def check_process_name(inventory, process):
+    for item in inventory:
+        if item[1] not in process:
+            return False
+    return True
+
+
+def print_nice_stock(stock, mark):
+    print(f"Stock ({mark}) :")
+    for key, value in stock.items():
+        print(f" {key} => {value}")
+
+
 def main():
     argparser = argparse.ArgumentParser(
         description="krpsim")
@@ -51,25 +64,33 @@ def main():
         input_result = load_file(args.result_to_test)
         inventory = parse_result(input_result)
 
-    # print(agent.initial_stock)
+    if check_process_name(inventory, agent.process) is False:
+        print("Error: process name mismatch.")
+        sys.exit(1)
+
     stock_copy = dict(agent.initial_stock)
-    total_cycle = 0
+    begin_range = 0
     prev_cycle = 0
     for i in range(len(inventory)):
-        print("Process", i, ":", inventory[i][1], inventory[i][0])
-        print(agent.process[inventory[i][1]].need)
-        agent.run_process_need(stock_copy, agent.process[inventory[i][1]])
-        # stock_copy = {
-        #     key: stock_copy[key] - agent.process[inventory[i][1]].need.get(key, 0) for key in stock_copy}
+        print("Process", i, ":", inventory[i][1], "/ cycle:", inventory[i][0])
+        # print(agent.process[inventory[i][1]].need)
+        # agent.run_process_need(stock_copy, agent.process[inventory[i][1]])
+        stock_copy = {
+            key: stock_copy[key] - agent.process[inventory[i][1]].need.get(key, 0) for key in stock_copy}
         if prev_cycle == int(inventory[i][0]):
-            print(stock_copy)
             if any(value < 0 for value in stock_copy.values()):
-                print("Error.")
+                print(
+                    f"Error: Excueted process not valid. -- for Process {i} : {inventory[i][1]}")
+                print_nice_stock({
+                    key: stock_copy[key] + agent.process[inventory[i][1]].need.get(key, 0) for key in stock_copy}, "before")
+                print_nice_stock(stock_copy, "after")
                 sys.exit(1)
         else:
+            for j in range(begin_range, i):
+                stock_copy = {
+                    key: stock_copy[key] + agent.process[inventory[j][1]].result.get(key, 0) for key in stock_copy}
+            begin_range = i
             prev_cycle = int(inventory[i][0])
-        # stock_copy = {
-        #     key: stock_copy[key] + agent.process[inventory[i][1]].result.get(key, 0) for key in stock_copy}
         # total_cycle += 0
         # print(total_cycle)
         # print(stock_copy)
