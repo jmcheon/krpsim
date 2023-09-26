@@ -4,6 +4,7 @@ import argparse
 from Parser import Parser
 from QLearningAgent import QLearningAgent
 from Krpsim import Krpsim
+from Base import Base
 
 
 def parse_result(input_result: object):
@@ -51,22 +52,27 @@ def main():
         inventory = parse_result(input_result)
 
     # print(agent.initial_stock)
-    stock_copy = agent.initial_stock
+    stock_copy = dict(agent.initial_stock)
     total_cycle = 0
+    prev_cycle = 0
     for i in range(len(inventory)):
-        print("Process", i, ":", inventory[i][1])
+        print("Process", i, ":", inventory[i][1], inventory[i][0])
         print(agent.process[inventory[i][1]].need)
-        stock_copy = {
-            key: stock_copy[key] - agent.process[inventory[i][1]].need.get(key, 0) for key in stock_copy}
-
-        stock_copy = {
-            key: stock_copy[key] + agent.process[inventory[i][1]].result.get(key, 0) for key in stock_copy}
-        if any(value < 0 for value in stock_copy.values()):
-            print("Error.")
-            sys.exit(1)
-        total_cycle += 0
-        print(total_cycle)
-        print(stock_copy)
+        agent.run_process_need(stock_copy, agent.process[inventory[i][1]])
+        # stock_copy = {
+        #     key: stock_copy[key] - agent.process[inventory[i][1]].need.get(key, 0) for key in stock_copy}
+        if prev_cycle == int(inventory[i][0]):
+            print(stock_copy)
+            if any(value < 0 for value in stock_copy.values()):
+                print("Error.")
+                sys.exit(1)
+        else:
+            prev_cycle = int(inventory[i][0])
+        # stock_copy = {
+        #     key: stock_copy[key] + agent.process[inventory[i][1]].result.get(key, 0) for key in stock_copy}
+        # total_cycle += 0
+        # print(total_cycle)
+        # print(stock_copy)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,18 @@
+Syntax check passed successfully.
+Nice file! 4 processes, 5 stocks, 2 to optimize
+Evaluating  done.
+Main walk
+0:do_fond
+0:do_montant
+0:do_etagere
+0:do_etagere
+0:do_etagere
+0:do_montant
+0:do_armoire_ikea
+no more process doable at time 51
+Stock :
+ planche => 0
+ montant => 0
+ fond => 0
+ etagere => 0
+ armoire => 1

@@ -1,0 +1,13 @@
+Syntax check passed successfully.
+Nice file! 5 processes, 4 stocks, 2 to optimize
+Evaluating  done.
+Main walk
+0:cuisson_1
+10:cuisson_3
+20:cuisson_2
+no more process doable at time 31
+Stock :
+ steak_cru => 0
+ poele => 1
+ steak_mi_cuit => 0
+ steak_cuit => 3
