@@ -76,7 +76,8 @@ class Parser:
                 ):
                 process = Process(name, need[1:-1], result[1:-1], nb_cycle)
                 self.base.add_process(name, process)
-                # print(process.need, process.result)
+                #if len(process.result) == 0:
+                #    print(process.need, process.result)
                 return True
             return False
 

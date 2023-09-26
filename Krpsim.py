@@ -31,12 +31,16 @@ class Krpsim:
             # self.agent.print_stocks(self.agent.stock)
             # print('done ...')
             return self
+        i = 0
 
-        while True:
+        while True and i < 1000:
             walk = self.agent.generate_inventory(self.inventory)
             if walk == None or len(walk) == 0:
                 self.stock = self.agent.stock
                 self.agent.stock = self.agent.initial_stock
+                #self.inventory.clear()
+                i += 1
+                #break
                 continue
             self.inventory.extend(walk)
             if self.verbose:
@@ -45,6 +49,7 @@ class Krpsim:
             self.stock = self.agent.stock
             self.agent.stock = self.agent.initial_stock
             if self.inventory != None and len(self.inventory) != 0:
+                #print('break')
                 break
         #print('\ninventory:', self.inventory) # for debugging
         return self
@@ -106,10 +111,10 @@ class Krpsim:
             if len(self.inventory) != 0:
                 total_cycle = self.inventory[-1][1]
                 #print(f'{(self.inventory)} {total_cycle}')
-            else:
-                total_cycle = 0
-            total_cycle += int(
+                total_cycle += int(
                 self.agent.process[self.inventory[len(self.inventory) - 1][0]].nb_cycle)
+            else:
+                total_cycle = float('inf')
             #print(f'{(self.inventory)} {total_cycle}')
             #print(f'time: {total_cycle}')
             if min_total_cycle > total_cycle:
@@ -166,7 +171,8 @@ class Krpsim:
             print(f"{item[1]}:{item[0]}")
             item_before = item[0]
 
-        total_cycle += int(
+        if len(self.inventory) != 0:
+            total_cycle += int(
             self.agent.process[self.inventory[len(self.inventory) - 1][0]].nb_cycle)
 
         # if finite is True:
