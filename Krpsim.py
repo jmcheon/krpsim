@@ -37,6 +37,7 @@ class Krpsim:
             walk = self.agent.generate_inventory(self.inventory)
             if walk == None or len(walk) == 0:
                 self.stock = self.agent.stock
+                #self.agent.print_stocks(self.stock)
                 self.agent.stock = self.agent.initial_stock
                 #self.inventory.clear()
                 i += 1
@@ -51,6 +52,11 @@ class Krpsim:
             if self.inventory != None and len(self.inventory) != 0:
                 #print('break')
                 break
+        #self.agent.print_stocks(self.stock)
+        if i >= 1000:
+            #print('f', self.agent.walk)
+            self.inventory.clear()
+            self.inventory = list(self.agent.walk)
         #print('\ninventory:', self.inventory) # for debugging
         return self
 
@@ -102,9 +108,11 @@ class Krpsim:
             elif indi.stock == prev_indi.stock:
                 self.finite = True
                 break
+        self.inventory = list(new_indi.inventory)
         self.agent.stock = new_indi.stock
 
     def optimize_time(self):
+        #print('time in optimize')
         min_total_cycle = float('inf')
         inventory = []
         for i in range(80):

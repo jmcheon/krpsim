@@ -9,6 +9,7 @@ class QLearningAgent(Base):
 
     def __init__(self, num_states=None, num_actions=None, epsilon=0.1, alpha=0.5, gamma=0.9):
         super().__init__()
+        self.walk = []
         self.num_states = num_states
         self.num_actions = num_actions
         self.q_table = None  # np.zeros((num_states, num_actions))
@@ -126,7 +127,7 @@ class QLearningAgent(Base):
         return action_num, process_name
 
     def generate_inventory(self, inventory) -> list:
-        walk = []
+        self.walk = []
         stock = dict(self.stock)
         max_cycle = 0
         while self.is_optimized() == False:
@@ -141,8 +142,8 @@ class QLearningAgent(Base):
                 process_lst)
             # print(f'action_num: {action_num}, {process_name}')
 
-            if len(walk) != 0:
-                last_process_name = walk[-1]
+            if len(self.walk) != 0:
+                last_process_name = self.walk[-1]
                 if max_cycle < self.process[last_process_name[0]].nb_cycle:
                     max_cycle = self.process[last_process_name[0]].nb_cycle
                 #print(f'\tmax_cycle:{max_cycle}')
@@ -151,6 +152,7 @@ class QLearningAgent(Base):
                     stock = dict(self.stock)
                     self.cycle += int(max_cycle)
                     max_cycle = 0
+                #print(f'\nwalk: {self.walk}')
             elif len(inventory) != 0:
                 last_process_name = inventory[-1]
                 if max_cycle < self.process[last_process_name[0]].nb_cycle:
@@ -160,12 +162,13 @@ class QLearningAgent(Base):
                     stock = dict(self.stock)
                     self.cycle += int(max_cycle)
                     max_cycle = 0
-            #print(f'\nwalk: {walk}')
+                #self.print_stocks(self.stock)
 
             if self.run_process(self.stock, self.process[process_name]):
                 #print('run')
-                walk.append([process_name, self.cycle])
-                #print(walk[-1])
+                self.walk.append([process_name, self.cycle])
+                #self.print_stocks(self.stock)
+                #print(self.walk[-1])
 
             next_process_lst = self.get_available_process_lst()
             #print(next_process_lst)
@@ -173,17 +176,17 @@ class QLearningAgent(Base):
                 # print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
                 if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
                     # print(process_name, self.get_optimize_process_lst())
-                    self.undo_process(self.process[process_name])
+                    #self.undo_process(self.process[process_name])
                     self.q_table = np.zeros(
                         (self.num_states, self.num_actions))
                     self.cycle = 0
                     #print('None')
                     return None
                 else:
-                    return walk
+                    return self.walk
             #print(len(next_process_lst), next_process_lst)
             next_state = self.state_mapping[tuple(next_process_lst)]
             self.update_q_table(state_num, action_num,
                                 self.get_reward(process_name), next_state)
 
-        return walk
+        return self.walk
