@@ -87,20 +87,22 @@ def main():
                 sys.exit(1)
         else:
             max_cycle = 0
-            print(begin_range)
-
+            # print("begin_range",begin_range)
             for j in range(begin_range, i):
                 if max_cycle < agent.process[inventory[j][1]].nb_cycle:
                     max_cycle = agent.process[inventory[j][1]].nb_cycle
-            for j in range(begin_range, i):
                 stock_copy = {
                     key: stock_copy[key] + agent.process[inventory[j][1]].result.get(key, 0) for key in stock_copy}
+                # print("aaa",stock_copy)
             if (prev_cycle + max_cycle) != int(inventory[i][0]):
                 print(max_cycle, int(inventory[i][0]))
                 print("Error: incorrect number of cycle")
                 sys.exit(1)
+            stock_copy = {
+                key: stock_copy[key] + agent.process[inventory[i][1]].result.get(key, 0) for key in stock_copy}
             begin_range = i
             prev_cycle = int(inventory[i][0])
+            # print("prev_add",prev_cycle)
         # total_cycle += 0
         # print(total_cycle)
         # print(stock_copy)
