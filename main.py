@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+import networkx as nx
 from Parser import Parser
 from QLearningAgent import QLearningAgent
 from Krpsim import Krpsim
@@ -59,12 +60,24 @@ def main():
             print("\nPrint Base info:\n")
             print(agent)
 
+    agent.create_graph()
+    #agent.visualize_graph()
+    cycles = list(nx.simple_cycles(agent.graph))
+    if len(cycles) == 0:
+        print("No cycle found.")
+        agent.finite = True
+    else:
+        print("At least one cycle found.")
+        agent.finite = False
     krpsim = Krpsim(agent, delay_seconds, args.verbose)
     krpsim.run()
 
     if args.graph:
         agent.create_graph()
         agent.visualize_graph()
+        if nx.algorithms.cycles.has_cycle(agent.graph):
+            agent.finite = True
+
 
 
 if __name__ == "__main__":

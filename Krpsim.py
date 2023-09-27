@@ -7,8 +7,7 @@ class Krpsim:
         self.inventory = []
         self.delay = delay
         self.agent = agent.copy()
-        self.stock = agent.stock
-        self.finite = False
+        self.stock = (agent.stock)
         self.verbose = verbose
 
     @property
@@ -70,13 +69,13 @@ class Krpsim:
             print('inventory.stock:', self.stock)
         else:
             print("Evaluating ", end='')
-        self.optimize()
+        stock = self.optimize(True)
         print(" done.")
-        if self.finite and 'time' in self.agent.optimize:
-            self.optimize_time()
-        self.print_trace()
+        if self.agent.finite and 'time' in self.agent.optimize:
+            stock = self.optimize_time(stock)
+        self.print_trace(stock)
 
-    def optimize(self):
+    def optimize(self, time_optimized):
         prev_indi = self.agent.copy()
         prev_indi.init_stocks()
         indi = self.copy()
@@ -87,12 +86,12 @@ class Krpsim:
         next_dot_time = start_time + dot_interval
 
         # for finite checking:
-        self.finite = False
+        self.agent.finite = False
         while indi.stock != prev_indi.stock:
             prev_indi = indi
             new_indi = indi.copy()
-            new_indi.agent.stock = indi.stock
-            new_indi.agent.initial_stock = indi.stock
+            new_indi.agent.stock = dict(indi.stock)
+            new_indi.agent.initial_stock = dict(indi.stock)
             new_indi.generate_inventory()
             if self.verbose:
                 print('new stock:', new_indi.stock)
@@ -105,17 +104,23 @@ class Krpsim:
 
             if current_time - start_time >= self.delay:
                 break
-            elif indi.stock == prev_indi.stock:
-                self.finite = True
+            elif indi.stock == prev_indi.stock or len(indi.agent.get_available_process_lst()) == 0:
+                print(len(indi.agent.get_available_process_lst()))
+                self.agent.finite = True
+                #print(self.agent.finite)
                 break
         self.inventory = list(new_indi.inventory)
-        self.agent.stock = new_indi.stock
+        #if time_optimized:
+            #self.stock = dict(new_indi.stock)
+        return dict(new_indi.stock)
 
-    def optimize_time(self):
+    def optimize_time(self, stock):
         #print('time in optimize')
         min_total_cycle = float('inf')
         inventory = []
+        time_stock = []
         for i in range(80):
+            time_optimized = False
             if len(self.inventory) != 0:
                 total_cycle = self.inventory[-1][1]
                 #print(f'{(self.inventory)} {total_cycle}')
@@ -128,18 +133,30 @@ class Krpsim:
             if min_total_cycle > total_cycle:
                 min_total_cycle = total_cycle
                 inventory = list(self.inventory)
+                time_optimized = True
+                time_stock = dict(stock)
+                print('\t\t', min_total_cycle, total_cycle, time_stock)
                 #print('inv:', inventory)
+            elif min_total_cycle == total_cycle:
+                for optimize in self.agent.optimize:
+                    if optimize != 'time':
+                        print(optimize, time_stock, stock, total_cycle)
+                    if optimize != 'time' and time_stock[optimize] < stock[optimize]:
+                        inventory = list(self.inventory)
+                        time_stock = dict(stock)
             self.agent.cycle = 0
             self.inventory.clear()
-            self.optimize()
+            stock = self.optimize(time_optimized)
         self.inventory.clear()
         self.inventory = list(inventory)
+        return time_stock
         #print(f'optimized time: {min_total_cycle}')
 
 
-    def print_trace(self):
+    def print_trace(self, stock):
         print("Main walk")
-        print(self.inventory)
+        #print(self.inventory)
+        #print(self.agent.print_stocks(self.agent.stock))
         if len(self.inventory) != 0:
             total_cycle = self.inventory[-1][1]
         else:
@@ -188,10 +205,10 @@ class Krpsim:
         #                               100000)
         #     print(f"no more process doable at time {microseconds_time}")
 
-        if self.finite is True:
+        if self.agent.finite is True:
             print(f"no more process doable at time {total_cycle + 1}")
 
         print("Stock :")
-        for key, value in self.agent.stock.items():
+        for key, value in stock.items():
             print(f" {key} => {value}")
         # print_final_stocks(self, new_indi.stock)

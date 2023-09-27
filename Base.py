@@ -15,6 +15,7 @@ class Base:
         self._process = {}
         self._optimize = []
         self._degrade = []
+        self.finite = False
         self.finished = False
         self.next_process_lst = []
         self.max_optimize_process = None
@@ -154,6 +155,17 @@ class Base:
     def is_optimized(self) -> bool:
         for stock in self.optimize:
             if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
+                #if len(self.next_process_lst) == 0:
+                '''
+                print(self.finite, self.finished)
+                if self.finite == True:
+                    if self.finished:
+                        return True
+                    else:
+                        return False
+                if self.finite == False:
+                    return True
+                    '''
                 # if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
                 # print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
                 # if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
@@ -334,17 +346,20 @@ class Base:
         process_lst = []
         for pro in self.process.values():
             # print(pro.need.keys())
-            if process.result.keys() == pro.need.keys() and pro != process:
+            if any(elem in list(process.result.keys()) for elem in pro.need.keys()):
+            #if process.result.keys() == pro.need.keys() and pro != process:
                 # if process.result.items() == pro.need.items() and pro != process:
                 process_lst.append(pro)
                 # print('return:', pro.name)
         return process_lst
 
     def create_graph(self):
+        '''
         self.graph.add_node('start')
         for process in self.process.values():
             self.graph.add_edge('start', process.name)
             self.graph.add_edge(process.name, 'start')
+            '''
 
         for process in self.process.values():
             process_name, needs, results = process.name, process.need, process.result
@@ -356,7 +371,7 @@ class Base:
             process_lst = self.find_connecting_process(process)
             # if key in process.need.keys():
             for pro in process_lst:
-                if pro != None:
+                if pro != None and pro.name != process_name:
                     # print('name:', pro.name)
                     self.graph.add_edge(process_name, pro.name)
         return self.graph
