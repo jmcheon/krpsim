@@ -242,7 +242,7 @@ Main walk
 0:do_montant
 0:do_fond
 0:do_montant
-20:do_armoire_ikea
+30:do_armoire_ikea
 no more process doable at time 51
 Stock :
  planche => 0

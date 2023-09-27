@@ -75,30 +75,47 @@ def main():
     for i in range(len(inventory)):
         print("Process", i, ":", inventory[i][1], "/ cycle:", inventory[i][0])
         if prev_cycle != int(inventory[i][0]):
-            for j in range(begin_range, i):
+            if prev_cycle > int(inventory[i][0]):
+                print("Error: Cycle number wrong")
+                sys.exit(1)
+            max_cycle = 0
+            print("begin_range",begin_range)
+            for j in range(begin_range, i + 1):
                 process_todo.append(inventory[j])
             to_remove = []
+            print(len(process_todo))
             for k in range(len(process_todo)):
-                if agent.process[process_todo[k][1]].nb_cycle <= int(inventory[i][0]):
+                # print("=======================")
+                # print(agent.process[process_todo[k][1]])
+                # print("=======================")
+                if (agent.process[process_todo[k][1]].nb_cycle + prev_cycle) <= int(inventory[i][0]):
                     stock_copy = {
                         key: stock_copy[key] - agent.process[process_todo[k][1]].need.get(key, 0) for key in stock_copy}
                     stock_copy = {
                         key: stock_copy[key] + agent.process[process_todo[k][1]].result.get(key, 0) for key in stock_copy}
                     to_remove.append(k)
                     # print("helllo")
+                    if max_cycle < agent.process[process_todo[k][1]].nb_cycle:
+                        max_cycle = agent.process[process_todo[k][1]].nb_cycle
+            print("max_cycle",max_cycle)
+            if (prev_cycle + max_cycle) != int(inventory[i][0]):
+                print("Error: incorrect number of cycle")
+                sys.exit(1)
             for k in reversed(to_remove):
+                # print("kkkk", process_todo[k])
                 process_todo.pop(k)
-            begin_range = i + 1
-            stock_copy = {
-                key: stock_copy[key] - agent.process[inventory[i][1]].need.get(key, 0) for key in stock_copy}
-            stock_copy = {
-                key: stock_copy[key] + agent.process[inventory[i][1]].result.get(key, 0) for key in stock_copy}
+            begin_range = i
+            # stock_copy = {
+            #     key: stock_copy[key] - agent.process[inventory[i][1]].need.get(key, 0) for key in stock_copy}
+            # stock_copy = {
+            #     key: stock_copy[key] + agent.process[inventory[i][1]].result.get(key, 0) for key in stock_copy}
             prev_cycle = int(inventory[i][0])
             if any(value < 0 for value in stock_copy.values()):
                 print(
                     f"Error: Excueted process not valid.")
                 print_nice_stock(stock_copy,"")
                 sys.exit(1)
+
         # print(begin_range)
     # if (len(process_todo) > 0):
         # for k in range(len(process_todo)):
