@@ -29,6 +29,9 @@ def main():
     argparser.add_argument("-v", "--verbose", action="store_true",
                            help="Visualize the graph")
 
+    argparser.add_argument("-r", "--random", action="store_true",
+                           help="Optimize randomly")
+
     args = argparser.parse_args()
 
     if args.input_filename is None or args.delay is None:
@@ -60,23 +63,12 @@ def main():
             print("\nPrint Base info:\n")
             print(agent)
 
-    agent.create_graph()
-    #agent.visualize_graph()
-    cycles = list(nx.simple_cycles(agent.graph))
-    if len(cycles) == 0:
-        print("No cycle found.")
-        agent.finite = True
-    else:
-        print("At least one cycle found.")
-        agent.finite = False
-    krpsim = Krpsim(agent, delay_seconds, args.verbose)
+    krpsim = Krpsim(agent, delay_seconds, args.verbose, args.random)
     krpsim.run()
 
     if args.graph:
         agent.create_graph()
         agent.visualize_graph()
-        if nx.algorithms.cycles.has_cycle(agent.graph):
-            agent.finite = True
 
 
 

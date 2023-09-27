@@ -3,12 +3,13 @@ import time
 
 
 class Krpsim:
-    def __init__(self, agent, delay, verbose):
+    def __init__(self, agent, delay, verbose, random=False):
         self.inventory = []
         self.delay = delay
         self.agent = agent.copy()
         self.stock = (agent.stock)
         self.verbose = verbose
+        self.random = random
 
     @property
     def stock(self):
@@ -33,7 +34,10 @@ class Krpsim:
         i = 0
 
         while True and i < 1000:
-            walk = self.agent.generate_inventory(self.inventory)
+            if self.random == False:
+                walk = self.agent.generate_inventory(self.inventory, self.delay)
+            else:
+                walk = self.agent.generate_walk(self.inventory, self.delay)
             if walk == None or len(walk) == 0:
                 self.stock = self.agent.stock
                 #self.agent.print_stocks(self.stock)

@@ -1,6 +1,7 @@
 from Process import Process
 import imageio
 import copy
+import time 
 import random
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -154,7 +155,7 @@ class Base:
 
     def is_optimized(self) -> bool:
         for stock in self.optimize:
-            if stock != 'time' and self.stock[stock] > self.initial_stock[stock]:
+            if stock != 'time' and self.stock[stock] > self.initial_stock[stock] and self.finished:
                 #if len(self.next_process_lst) == 0:
                 '''
                 print(self.finite, self.finished)
@@ -281,34 +282,62 @@ class Base:
             self.stock[stock] -= quantity
         # self.print_stocks()
 
-    def generate_walk(self) -> list:
-        walk = []
+    def generate_walk(self, inventory, delay) -> list:
+        self.walk = []
+        stock = dict(self.stock)
+        max_cycle = 0
         # print(self.get_max_optimize_stock_quantity())
-        v = None
         i = 0
         j = 0
+        start_time = time.time()
         while self.is_optimized() == False:
             process_lst = self.get_available_process_lst()
-            # print(process_lst)
             if len(process_lst) == 0:
-                # print('no more process left')
                 return None
-                # return walk
-            v = random.choice(process_lst)
-            if self.run_process(self.stock, self.process[v]):
-                if v == 'vente_boite':
-                    print('adding:', v)
-                walk.append(v)
+            process_name = random.choice(process_lst)
+            if len(self.walk) != 0:
+                last_process_name = self.walk[-1]
+                if max_cycle < self.process[last_process_name[0]].nb_cycle:
+                    max_cycle = self.process[last_process_name[0]].nb_cycle
+                self.run_process_need(stock, self.process[process_name])
+                if self.is_runnable_next_process(stock, self.process[process_name]) == False:
+                    stock = dict(self.stock)
+                    self.cycle += int(max_cycle)
+                    max_cycle = 0
+            elif len(inventory) != 0:
+                last_process_name = inventory[-1]
+                if max_cycle < self.process[last_process_name[0]].nb_cycle:
+                    max_cycle = self.process[last_process_name[0]].nb_cycle
+                self.run_process_need(stock, self.process[process_name])
+                if self.is_runnable_next_process(stock, self.process[process_name]) == False:
+                    stock = dict(self.stock)
+                    self.cycle += int(max_cycle)
+                    max_cycle = 0
+            if self.run_process(self.stock, self.process[process_name]):
+                self.walk.append([process_name, self.cycle])
+            current_time = time.time()
         # print('walk:', walk)
             if i % 10 == 0:
                 # self.create_stock_image(v, j)
                 j += 1
             i += 1
-        print(f'return gen walk: {v}, i: {i}')
+            self.next_process_lst = self.get_available_process_lst()
+            #print(self.next_process_lst)
+            if len(self.next_process_lst) == 0:
+                self.finshed = True
+                # print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
+                if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
+                    self.cycle = 0
+                    return None
+                else:
+                    return self.walk
+            if current_time - start_time >= delay:
+                break
+        #print(f'return gen walk: {v}, i: {i}')
         # if i % 10 != 0:
         # self.create_stock_image(v, j)
         # self.save_animated_image(j)
-        return walk
+        return self.walk
 
     def create_stock_image(self, process_name, i):
         plt.figure(figsize=(10, 6))
@@ -346,20 +375,18 @@ class Base:
         process_lst = []
         for pro in self.process.values():
             # print(pro.need.keys())
-            if any(elem in list(process.result.keys()) for elem in pro.need.keys()):
-            #if process.result.keys() == pro.need.keys() and pro != process:
+            #if any(elem in list(process.result.keys()) for elem in pro.need.keys()):
+            if process.result.keys() == pro.need.keys() and pro != process:
                 # if process.result.items() == pro.need.items() and pro != process:
                 process_lst.append(pro)
                 # print('return:', pro.name)
         return process_lst
 
     def create_graph(self):
-        '''
         self.graph.add_node('start')
         for process in self.process.values():
             self.graph.add_edge('start', process.name)
             self.graph.add_edge(process.name, 'start')
-            '''
 
         for process in self.process.values():
             process_name, needs, results = process.name, process.need, process.result
@@ -374,6 +401,8 @@ class Base:
                 if pro != None and pro.name != process_name:
                     # print('name:', pro.name)
                     self.graph.add_edge(process_name, pro.name)
+
+        #print(self.graph.edges())
         return self.graph
 
     def visualize_graph(self, font_color='black', font_weight='bold', node_size=1500, legend=None):

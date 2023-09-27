@@ -1,5 +1,6 @@
 import numpy as np
 import copy
+import time
 import random
 import itertools
 from Base import Base
@@ -126,12 +127,13 @@ class QLearningAgent(Base):
         # print(action_num, process_name)
         return action_num, process_name
 
-    def generate_inventory(self, inventory) -> list:
+    def generate_inventory(self, inventory, delay) -> list:
         #if len(self.next_process_lst) == 0:
             #print(self.stock, '\n', self.initial_stock)
         self.walk = []
         stock = dict(self.stock)
         max_cycle = 0
+        start_time = time.time()
         while self.is_optimized() == False:
             process_lst = self.get_available_process_lst()
             #print('process_lst:', process_lst)
@@ -172,6 +174,7 @@ class QLearningAgent(Base):
                 self.walk.append([process_name, self.cycle])
                 #self.print_stocks(self.stock)
                 #print(self.walk)
+            current_time = time.time()
 
             self.next_process_lst = self.get_available_process_lst()
             #print(self.next_process_lst)
@@ -192,6 +195,8 @@ class QLearningAgent(Base):
             next_state = self.state_mapping[tuple(self.next_process_lst)]
             self.update_q_table(state_num, action_num,
                                 self.get_reward(process_name), next_state)
+            if current_time - start_time >= delay:
+                break
 
         #print('fin return walk')
         return self.walk
