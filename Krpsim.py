@@ -44,7 +44,6 @@ class Krpsim:
                 self.agent.stock = self.agent.initial_stock
                 #self.inventory.clear()
                 i += 1
-                #break
                 continue
             self.inventory.extend(walk)
             if self.verbose:
@@ -53,7 +52,6 @@ class Krpsim:
             self.stock = self.agent.stock
             self.agent.stock = self.agent.initial_stock
             if self.inventory != None and len(self.inventory) != 0:
-                #print('break')
                 break
         #self.agent.print_stocks(self.stock)
         if i >= 1000:
