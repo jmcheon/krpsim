@@ -96,7 +96,8 @@ def main():
                     max_cycle = agent.process[inventory[j][1]].nb_cycle
                 stock_copy = {
                     key: stock_copy[key] + agent.process[inventory[j][1]].result.get(key, 0) for key in stock_copy}
-            if max_cycle != inventory[i][0]:
+            if max_cycle != int(inventory[i][0]):
+                print(max_cycle, int(inventory[i][0]))
                 print("Error: incorrect cycle")
                 sys.exit(1)
             begin_range = i
