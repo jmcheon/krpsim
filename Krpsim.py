@@ -25,6 +25,43 @@ class Krpsim:
     def copy(self):
         return copy.copy(self)
 
+    def generate_inventory2(self):
+        if len(self.agent.get_available_process_lst()) == 0:
+            # if self.agent.is_already_optimized():
+            # self.agent.print_stocks(self.agent.stock)
+            # print('done ...')
+            return self
+        i = 0
+
+        while True and i < 1000:
+            if self.random == False:
+                walk = self.agent.generate_inventory(self.inventory, self.delay)
+            else:
+                walk = self.agent.generate_walk(self.inventory, self.delay)
+            if walk == None or len(walk) == 0:
+                self.stock = self.agent.stock
+                #self.agent.print_stocks(self.stock)
+                self.agent.stock = self.agent.initial_stock
+                #self.inventory.clear()
+                i += 1
+                continue
+            self.inventory.extend(walk)
+            if self.verbose:
+                print('agent stock')
+                self.agent.print_stocks(self.agent.stock)
+            self.stock = self.agent.stock
+            self.agent.stock = self.agent.initial_stock
+            if self.inventory != None and len(self.inventory) != 0:
+                break
+            self.agent.cycle += 1
+        #self.agent.print_stocks(self.stock)
+        if i >= 1000:
+            #print('f', self.agent.walk)
+            self.inventory.clear()
+            self.inventory = list(self.agent.walk)
+        #print('\ninventory:', self.inventory) # for debugging
+        return self
+
     def generate_inventory(self):
         if len(self.agent.get_available_process_lst()) == 0:
             # if self.agent.is_already_optimized():
@@ -143,7 +180,7 @@ class Krpsim:
                 for optimize in self.agent.optimize:
                     if optimize != 'time':
                         print(optimize, time_stock, stock, total_cycle)
-                    if optimize != 'time' and time_stock[optimize] < stock[optimize]:
+                    if optimize != 'time' and len(time_stock) != 0 and time_stock[optimize] < stock[optimize]:
                         inventory = list(self.inventory)
                         time_stock = dict(stock)
             self.agent.cycle = 0

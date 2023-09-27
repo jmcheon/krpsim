@@ -156,20 +156,9 @@ class Base:
     def is_optimized(self) -> bool:
         for stock in self.optimize:
             if stock != 'time' and self.stock[stock] > self.initial_stock[stock] and self.finished:
-                #if len(self.next_process_lst) == 0:
-                '''
-                print(self.finite, self.finished)
-                if self.finite == True:
-                    if self.finished:
-                        return True
-                    else:
-                        return False
-                if self.finite == False:
-                    return True
-                    '''
-                # if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
-                # print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
-                # if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
+            # if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
+            # print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
+            # if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
                 return True
         return False
 
@@ -286,9 +275,6 @@ class Base:
         self.walk = []
         stock = dict(self.stock)
         max_cycle = 0
-        # print(self.get_max_optimize_stock_quantity())
-        i = 0
-        j = 0
         start_time = time.time()
         while self.is_optimized() == False:
             process_lst = self.get_available_process_lst()
@@ -316,16 +302,9 @@ class Base:
             if self.run_process(self.stock, self.process[process_name]):
                 self.walk.append([process_name, self.cycle])
             current_time = time.time()
-        # print('walk:', walk)
-            if i % 10 == 0:
-                # self.create_stock_image(v, j)
-                j += 1
-            i += 1
             self.next_process_lst = self.get_available_process_lst()
-            #print(self.next_process_lst)
             if len(self.next_process_lst) == 0:
                 self.finshed = True
-                # print('max pro:', self.max_optimize_process.name, 'cur pro:', process_name)
                 if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
                     self.cycle = 0
                     return None
@@ -333,10 +312,6 @@ class Base:
                     return self.walk
             if current_time - start_time >= delay:
                 break
-        #print(f'return gen walk: {v}, i: {i}')
-        # if i % 10 != 0:
-        # self.create_stock_image(v, j)
-        # self.save_animated_image(j)
         return self.walk
 
     def create_stock_image(self, process_name, i):

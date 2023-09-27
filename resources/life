@@ -1,19 +1,11 @@
 #
-# life - krpsim
+# infinite life - krpsim
 #
-# stock      name:quantity
 day:1
 food:10
-#
-# process   name:(need1:qty1;need2:qty2;[...]):(result1:qty1;result2:qty2;[...]):delay
-#
+
 sleep:(day:1):(energy:1):1
 eat:(food:3):(day:1):6
 cook:(energy:1):(food:5):60
-#
-# optimize time for no process possible (eating stock, produce all possible),
-# or maximize some products over a long delay
-# optimize:(time|stock1;time|stock2;...)
-#
+
 optimize:(food)
-#
