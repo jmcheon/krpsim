@@ -86,10 +86,6 @@ def main():
                 print_nice_stock(stock_copy, "after")
                 sys.exit(1)
         else:
-            print("=================================")
-            print("Process", i, ":", inventory[i][1], "/ cycle:", inventory[i][0])
-            print("Process", i - 1, ":", inventory[i -1][1], "/ cycle:", inventory[i - 1][0], agent.process[inventory[i-1][1]].nb_cycle)
-            print("=================================")
             max_cycle = 0
             for j in range(begin_range, i):
                 if max_cycle < agent.process[inventory[j][1]].nb_cycle:
@@ -97,8 +93,8 @@ def main():
                 stock_copy = {
                     key: stock_copy[key] + agent.process[inventory[j][1]].result.get(key, 0) for key in stock_copy}
             if max_cycle != int(inventory[i][0]):
-                print(max_cycle, int(inventory[i][0]))
-                print("Error: incorrect cycle")
+                # print(max_cycle, int(inventory[i][0]))
+                print("Error: incorrect number of cycle")
                 sys.exit(1)
             begin_range = i
             prev_cycle = int(inventory[i][0])

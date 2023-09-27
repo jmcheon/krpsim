@@ -242,7 +242,7 @@ Main walk
 0:do_fond
 0:do_montant
 0:do_etagere
-0:do_etagere
+10:do_etagere
 0:do_etagere
 0:do_montant
 20:do_armoire_ikea
