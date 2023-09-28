@@ -1,251 +1,255 @@
 Syntax check passed successfully.
-Nice file! 4 processes, 5 stocks, 2 to optimize
+Nice file! 4 processes, 6 stocks, 2 to optimize
 No cycle found.
 Evaluating 0
  done.
-[['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-		 50 50 {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1}
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+		 50 50 {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1}
 0
 [['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
 [['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
+[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_montant', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
-0
-[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
 [['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
-0
-[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
 [['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
-0
-[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
 [['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
-[['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
 [['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
-armoire {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
+0
+[['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
+0
+[['do_montant', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
+0
+[['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
 [['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
 0
-[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 15], ['do_armoire_ikea', 35]] 65
+[['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_fond', 0], ['do_montant', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_montant', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_montant', 0], ['do_fond', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_etagere', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_montant', 0], ['do_fond', 0], ['do_montant', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
+0
+[['do_montant', 0], ['do_etagere', 0], ['do_etagere', 0], ['do_fond', 0], ['do_montant', 0], ['do_etagere', 0], ['do_armoire_ikea', 20]] 50
+armoire {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} {'planche': 0, 'seed': 1, 'montant': 0, 'fond': 0, 'etagere': 0, 'armoire': 1} 50
 0
 Main walk
 0:do_etagere
-0:do_etagere
-0:do_etagere
 0:do_montant
+0:do_etagere
 0:do_fond
+0:do_etagere
 0:do_montant
-30:do_armoire_ikea
+20:do_armoire_ikea
 no more process doable at time 51
 Stock :
  planche => 0
+ seed => 1
  montant => 0
  fond => 0
  etagere => 0
