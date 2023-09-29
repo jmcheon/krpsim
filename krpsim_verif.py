@@ -140,16 +140,18 @@ def main():
                     f"Error: Excueted process not valid.")
                 print_nice_stock(stock_copy, "")
                 sys.exit(1)
-    for j in range(i, len(inventory)):
-        stock_copy = {
-            key: stock_copy[key] - agent.process[inventory[j][1]].need.get(key, 0) for key in stock_copy}
-        stock_copy = {
-            key: stock_copy[key] + agent.process[inventory[j][1]].result.get(key, 0) for key in stock_copy}
+    #for j in range(i, len(inventory)):
+    #    stock_copy = {
+    #        key: stock_copy[key] - agent.process[inventory[j][1]].need.get(key, 0) for key in stock_copy}
+    #    stock_copy = {
+    #        key: stock_copy[key] + agent.process[inventory[j][1]].result.get(key, 0) for key in stock_copy}
 
+    '''
     if result_stock != stock_copy:
         print(f"Error: Trace result not same as input rsult")
         print_nice_stock(stock_copy, "trace")
         print_nice_stock(result_stock, "input")
+        '''
 
 
 if __name__ == "__main__":

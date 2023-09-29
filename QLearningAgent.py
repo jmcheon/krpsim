@@ -253,7 +253,7 @@ class QLearningAgent(Base):
 
             if self.run_process(self.stock, self.process[process_name]):
                 #print('run')
-                self.walk.append([process_name, self.cycle, max_cycle])
+                self.walk.append([process_name, self.cycle])
                 #self.print_stocks(self.stock)
                 #print(self.walk)
             current_time = time.time()
