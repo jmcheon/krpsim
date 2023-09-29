@@ -119,8 +119,9 @@ def main():
             flag = False
             max_cycle = 0
             for k in reversed(to_remove):
-                # print("nb_cycle", agent.process[process_todo[k][1]].nb_cycle)
-                if (agent.process[process_todo[k][1]].nb_cycle + prev_cycle) == int(inventory[j][0]):
+                # print(
+                #     "nb_cycle", process_todo[k][1], agent.process[process_todo[k][1]].nb_cycle)
+                if (agent.process[process_todo[k][1]].nb_cycle + prev_cycle) == int(inventory[i][0]):
                     flag = True
                 # print("kkkk", process_todo[k])
                 process_todo.pop(k)
