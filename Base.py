@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 class Base:
 
     def __init__(self):
-        # print("Base init()")
         self._initial_stock = {}
         self._stock = {}
         self._process = {}
@@ -80,7 +79,6 @@ class Base:
 
     @initial_stock.setter
     def initial_stock(self, stock):
-        # print("setting initial stock")
         if isinstance(stock, dict):
             self._initial_stock = dict(stock)
         else:
@@ -147,7 +145,6 @@ class Base:
 
     def is_need_satisfied(self, process: Process) -> bool:
         for stock_name, quantity in process.need.items():
-            # print(f'{process.name} stock: {stock}, qty: {quantity}')
             ret = self.is_stock_satisfied(self.stock, stock_name, quantity)
             if ret == False:
                 return False
@@ -156,9 +153,6 @@ class Base:
     def is_optimized(self) -> bool:
         for stock in self.optimize:
             if stock != 'time' and self.stock[stock] > self.initial_stock[stock] and self.finished:
-            # if stock != 'time' and self.stock[stock] > self.get_max_optimize_stock_quantity():
-            # print(self.get_max_optimize_stock_quantity() + self.initial_stock[stock])
-            # if stock != 'time' and self.stock[stock] >= self.get_max_optimize_stock_quantity() + self.initial_stock[stock]:
                 return True
         return False
 
@@ -202,8 +196,6 @@ class Base:
         else:
             process = self.get_max_optimize_process()
         self.max_optimize_need_stocks = list(process.need.keys())
-        # self.max_optimize_need_stocks = process.need.keys()
-        # print('optimize need stocks:', self.max_optimize_need_stocks)
         return self.max_optimize_need_stocks
 
     def get_optimize_process_lst(self) -> list:
@@ -230,10 +222,7 @@ class Base:
 
     def run_process_need(self, stock_dict: dict, process: Process) -> bool:
         need_dict = process.need
-        # print(need_dict)
         for stock_name, quantity in need_dict.items():
-            # if process.name == 'vente_boite':
-            # print('qty:', self.stock[stock])
             if self.is_stock_satisfied(stock_dict, stock_name, quantity):
                 stock_dict[stock_name] -= quantity
             else:
@@ -241,10 +230,8 @@ class Base:
 
     def run_process_result(self, stock_dict: dict, process: Process) -> bool:
         result_dict = process.result
-        # print(result_dict)
         for stock, quantity in result_dict.items():
             if self.verbose:
-                # print(self.max_optimize_need_stocks)
                 print('result:', stock_dict[stock], 'adding:', quantity)
             stock_dict[stock] += quantity
         return True
@@ -261,15 +248,12 @@ class Base:
 
     def undo_process(self, process: Process):
         need_dict = process.need
-        # print(need_dict)
         for stock, quantity in need_dict.items():
             self.stock[stock] += quantity
 
         result_dict = process.result
-        # print(result_dict)
         for stock, quantity in result_dict.items():
             self.stock[stock] -= quantity
-        # self.print_stocks()
 
     def generate_walk(self, inventory, delay) -> list:
         self.walk = []
@@ -349,12 +333,8 @@ class Base:
     def find_connecting_process(self, process: Process) -> list:
         process_lst = []
         for pro in self.process.values():
-            # print(pro.need.keys())
-            #if any(elem in list(process.result.keys()) for elem in pro.need.keys()):
             if process.result.keys() == pro.need.keys() and pro != process:
-                # if process.result.items() == pro.need.items() and pro != process:
                 process_lst.append(pro)
-                # print('return:', pro.name)
         return process_lst
 
     def create_graph(self):
@@ -366,18 +346,11 @@ class Base:
         for process in self.process.values():
             process_name, needs, results = process.name, process.need, process.result
             self.graph.add_node(process_name)
-            # print(process.result.keys())
-            # self.is_need_satisfied(process)
-            # for key in process.result.keys():
-            # print('key:', key, process.need.keys())
             process_lst = self.find_connecting_process(process)
-            # if key in process.need.keys():
             for pro in process_lst:
                 if pro != None and pro.name != process_name:
-                    # print('name:', pro.name)
                     self.graph.add_edge(process_name, pro.name)
 
-        #print(self.graph.edges())
         return self.graph
 
     def visualize_graph(self, font_color='black', font_weight='bold', node_size=1500, legend=None):
@@ -386,9 +359,6 @@ class Base:
         pos = nx.circular_layout(self.graph)
         nx.draw(self.graph, pos, with_labels=True, node_color=node_color,
                 font_color=font_color, font_weight=font_weight, node_size=node_size)
-
-        # edge_labels = {(u,v): f"{self.process[u].result}" for u,v in self.graph.edges()}
-        # nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
 
         if legend:
             for label, color in legend.items():
