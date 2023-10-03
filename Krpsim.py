@@ -5,8 +5,8 @@ import time
 class Krpsim:
     def __init__(self, agent, delay, verbose, random=False):
         self.inventory = []
-        self.delay = delay
         self.agent = agent.copy()
+        self.delay = delay
         self.stock = (agent.stock)
         self.verbose = verbose
         self.random = random
@@ -53,19 +53,19 @@ class Krpsim:
             self.inventory = list(self.agent.walk)
         return self
 
-    def run(self):
+    def run(self) -> None:
         if self.verbose:
             print('start')
             print('inventory.stock:', self.stock)
         else:
             print("Evaluating ", end='')
-        stock = self.optimize(True)
+        stock = self.optimize()
         print(" done.")
         if self.agent.finite and 'time' in self.agent.optimize:
             stock = self.optimize_time(stock)
         self.print_trace(stock)
 
-    def optimize(self, time_optimized):
+    def optimize(self) -> dict:
         prev_indi = self.agent.copy()
         prev_indi.init_stocks()
         indi = self.copy()
@@ -100,12 +100,11 @@ class Krpsim:
         self.inventory = list(new_indi.inventory)
         return dict(new_indi.stock)
 
-    def optimize_time(self, stock):
+    def optimize_time(self, stock_dict: dict) -> dict:
         min_total_cycle = float('inf')
         inventory = []
         time_stock = []
         for i in range(80):
-            time_optimized = False
             if len(self.inventory) != 0:
                 total_cycle = self.inventory[-1][1]
                 total_cycle += int(
@@ -115,34 +114,31 @@ class Krpsim:
             if min_total_cycle > total_cycle:
                 min_total_cycle = total_cycle
                 inventory = list(self.inventory)
-                time_optimized = True
-                time_stock = dict(stock)
+                time_stock = dict(stock_dict)
             elif min_total_cycle == total_cycle:
                 for optimize in self.agent.optimize:
                     if optimize != 'time' and len(time_stock) != 0 and time_stock[optimize] < stock[optimize]:
                         inventory = list(self.inventory)
-                        time_stock = dict(stock)
+                        time_stock = dict(stock_dict)
             self.agent.cycle = 0
             self.inventory.clear()
-            stock = self.optimize(time_optimized)
+            stock = self.optimize()
         self.inventory.clear()
         self.inventory = list(inventory)
         return time_stock
 
 
-    def print_trace(self, stock):
+    def print_trace(self, stock_dict: dict) -> None:
         print("Main walk")
         if len(self.inventory) != 0:
             total_cycle = self.inventory[-1][1]
         else:
             total_cycle = 0
         biggest_cycle = 0
-        item_before = None
         for item in self.inventory:
             if (int(self.agent.process[item[0]].nb_cycle) > biggest_cycle):
                 biggest_cycle = int(self.agent.process[item[0]].nb_cycle)
             print(f"{item[1]}:{item[0]}")
-            item_before = item[0]
 
         if len(self.inventory) != 0:
             total_cycle += int(
@@ -152,5 +148,5 @@ class Krpsim:
             print(f"no more process doable at time {total_cycle + 1}")
 
         print("Stock :")
-        for key, value in stock.items():
+        for key, value in stock_dict.items():
             print(f" {key} => {value}")

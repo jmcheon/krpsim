@@ -17,7 +17,6 @@ class Base:
         self._degrade = []
         self.finite = False
         self.finished = False
-        self.next_process_lst = []
         self.max_optimize_process = None
         self.max_optimize_need_stocks = None
         self._graph = nx.DiGraph()
@@ -255,7 +254,7 @@ class Base:
         for stock, quantity in result_dict.items():
             self.stock[stock] -= quantity
 
-    def generate_walk(self, inventory, delay) -> list:
+    def generate_walk(self, inventory: list, delay: int) -> list:
         self.walk = []
         stock = dict(self.stock)
         max_cycle = 0
@@ -286,8 +285,8 @@ class Base:
             if self.run_process(self.stock, self.process[process_name]):
                 self.walk.append([process_name, self.cycle])
             current_time = time.time()
-            self.next_process_lst = self.get_available_process_lst()
-            if len(self.next_process_lst) == 0:
+            next_process_lst = self.get_available_process_lst()
+            if len(next_process_lst) == 0:
                 self.finshed = True
                 if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
                     self.cycle = 0
@@ -298,7 +297,7 @@ class Base:
                 break
         return self.walk
 
-    def create_stock_image(self, process_name, i):
+    def create_stock_image(self, process_name: str, i: int):
         plt.figure(figsize=(10, 6))
         colors = [
             'orange' if stock in self.optimize else 'skyblue' for stock in self.stock.keys()]
@@ -323,7 +322,7 @@ class Base:
         plt.savefig(f'stock_images/stock_{i}.png')
 
         # plt.show()
-    def save_animated_image(self, i):
+    def save_animated_image(self, i: int):
         print(f"Creating an animated image... i: {i}")
         images = []
         for i in range(i):

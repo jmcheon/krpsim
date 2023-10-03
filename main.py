@@ -1,7 +1,6 @@
 import os
 import sys
 import argparse
-import networkx as nx
 from Parser import Parser
 from QLearningAgent import QLearningAgent
 from Krpsim import Krpsim
@@ -69,8 +68,6 @@ def main():
     if args.graph:
         agent.create_graph()
         agent.visualize_graph()
-
-
 
 if __name__ == "__main__":
     main()

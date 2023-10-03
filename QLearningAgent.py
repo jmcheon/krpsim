@@ -1,7 +1,6 @@
 import numpy as np
 import copy
 import time
-import random
 import itertools
 from Base import Base
 
@@ -21,10 +20,6 @@ class QLearningAgent(Base):
         self.alpha = alpha  # learning rate
         self.gamma = gamma  # discount factor
 
-    def init_run_process_map(self):
-        for process_name in self.process.keys():
-            self.run_process_map[process_name] = []
-
     def copy(self):
         return copy.deepcopy(self)
 
@@ -42,7 +37,7 @@ class QLearningAgent(Base):
         self.get_degrade_process_lst()
         self.get_max_optimize_need_stocks()
 
-    def set_resources(self, base):
+    def set_resources(self, base: Base):
         self.initial_stock = dict(base.initial_stock)
         self.stock = dict(base.stock)
         self.process = dict(base.process)
@@ -63,7 +58,7 @@ class QLearningAgent(Base):
         else:
             return np.argmax(self.q_table[state])
 
-    def update_q_table(self, state, action, reward, next_state):
+    def update_q_table(self, state:int , action: int, reward: int, next_state: int):
         old_value = self.q_table[state][action]
 
         next_max_value = np.max(self.q_table[next_state])
@@ -105,7 +100,7 @@ class QLearningAgent(Base):
         else:
             return 0
 
-    def get_valid_available_process(self, process_lst):
+    def get_valid_available_process(self, process_lst: list):
         state_num = self.state_mapping[tuple(process_lst)]
         action_num = self.epsilon_greedy_policy(
             self.state_mapping[tuple(process_lst)])
@@ -122,7 +117,7 @@ class QLearningAgent(Base):
                 self.action_mapping, action_num)
         return action_num, process_name
 
-    def generate_inventory(self, inventory, delay) -> list:
+    def generate_inventory(self, inventory: list, delay: int) -> list:
         self.walk = []
         stock = dict(self.stock)
         max_cycle = 0
@@ -158,15 +153,15 @@ class QLearningAgent(Base):
                 self.walk.append([process_name, self.cycle])
             current_time = time.time()
 
-            self.next_process_lst = self.get_available_process_lst()
-            if len(self.next_process_lst) == 0:
+            next_process_lst = self.get_available_process_lst()
+            if len(next_process_lst) == 0:
                 self.finshed = True
                 if self.max_optimize_process.name != process_name and process_name not in self.get_optimize_process_lst():
                     self.cycle = 0
                     return None
                 else:
                     return self.walk
-            next_state = self.state_mapping[tuple(self.next_process_lst)]
+            next_state = self.state_mapping[tuple(next_process_lst)]
             self.update_q_table(state_num, action_num,
                                 self.get_reward(process_name), next_state)
             if current_time - start_time >= delay:
