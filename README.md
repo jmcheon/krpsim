@@ -1,4 +1,5 @@
-#  Krpsim - Algorithmic project++
+
+#  krpsim - Algorithmic project++
 >*_Summary: This project may be an algorithmic project, an operational research project, an AI project as well as an industrial project... As you like._*
 
 | Requirements | Skills |
@@ -43,7 +44,7 @@ In a configuration file, there are initial stocks, processes and optimize sectio
 
 The file format containing the process: 
 - A # to start each commentary line. 
-- A description of the available stocks in the beginning, in a simple 
+- A description of the available stocks in the beginning, in a simple </br>
 	`<stock_name>:<quantity>` format. 
 - A process description </br>
 	`<name>:(<need>:<qty>[;<need>:<qty>[...]]):(<result>:<qty>[;<result>:<qty>[...]]):<nb_cycle> `</br>
@@ -91,7 +92,57 @@ The goal of Q-learning is to learn the optimal Q-Values for each state-action pa
 Q-Values are updated iteratively using the following formula:
 $$Q(s_t, a_t) = (1 - α)Q(s_t, a_t) + α * [r_t + γ * max(Q(s_{t+1}, a))]$$
 
-#### Examples based on Algorithms
+##### Define spaces for Q-Learning
+
+To define spaces for Q-Learning, it is necessary to define 3 spaces: state space, action space, and reward space and they should be discrete, not continuous.
+
+##### State space
+
+An available process set is a set of elements, which are processes that can be executed based on the stock quantities in this case.
+
+The possible number of the available process sets for the given input resource, is $2^n$, where $n$ is the number of processes. So, when the number of processes is 18, there can be $2^{18}$ number of combinations of processes that are the available process sets.
+
+so, we can define state space as sets of available processes
+##### Action space
+
+Since the number of processes in a configuration file is defined, the action space can be defined as processes
+
+##### Reward space
+
+For reward that the agent obtains after taking an action in a state, can be negative as a penalty or positive as a reward.
+
+- Penalty
+	- processes that block the goal's achievement: -100
+	- processes only consuming stocks: -50
+	- processes that consume the optimize stocks: -20
+- Reward
+	- process that optimizes the optimize stock: +50
+	- processes resulting in stocks that are needed for processes resulting in the optimize stocks: +20
+##### [Reward function](QLearningAgent.py)
+```python
+def  get_reward(self, process_name: str) -> int:
+	if  len(self.process[process_name].result) ==  0:
+		return  -50
+	initial_need_stocks  =  dict(self.max_optimize_process.need)
+	need_stocks  =  dict(initial_need_stocks)
+	for  stock_name, quantity  in  self.max_optimize_process.need.items():
+		need_stocks[stock_name] -=  self.stock[stock_name]
+		if  any(qty  ==  0  for  qty  in  need_stocks.values()):
+			return  -1
+
+	if  self.is_runnable_next_process(self.stock, self.process[process_name]) == False:
+		return  -100
+	if  all(elem  in  list(self.process[process_name].result.keys()) for  elem  in  self.max_optimize_need_stocks):
+		return  20
+	if  process_name  in  self.degrade:
+		return  -20
+	if  process_name  ==  self.max_optimize_process.name:
+		return  50
+	else:
+		return  0
+```
+
+#### Examples based on algorithms
 ##### Pomme
 ```
 #  krpsim tarte aux pommes
@@ -145,53 +196,52 @@ Eventually, it sells 100 `boite` to earn 55,000 euro and it buys all the unneces
 
 ##### Result using random walk
 ```
-> python3 main.py resources/pomme 3 -r
+> python3 main.py resources/pomme 30 -r
 Syntax check passed successfully.
 Nice file! 18 processes, 16 stocks, 1 to optimize
 Evaluating . done.
 Main walk
 Stock :
  four => 10
- euro => 0
- pomme => 1072770
- citron => 562850
- oeuf => 143333
- farine => 16500
- beurre => 3565624
- lait => 3587041
+ euro => 120
+ pomme => 9981960
+ citron => 5255100
+ oeuf => 1327021
+ farine => 0
+ beurre => 33311038
+ lait => 33376104
  jaune_oeuf => 2
- blanc_oeuf => 4
- pate_sablee => 816600
- pate_feuilletee => 160700
- tarte_citron => 5
- tarte_pomme => 8
- flan => 0
- boite => 40
+ blanc_oeuf => 6
+ pate_sablee => 7790600
+ pate_feuilletee => 1421500
+ tarte_citron => 2
+ tarte_pomme => 12
+ flan => 4
+ boite => 76
  ```
 
 ##### Result using Q-learning
 ```
-> python3 main.py resources/pomme 3
+> python3 main.py resources/pomme 30
 Syntax check passed successfully.
 Nice file! 18 processes, 16 stocks, 1 to optimize
 Evaluating . done.
 Main walk
 Stock :
  four => 10
- euro => 305490
- pomme => 91730
- citron => 50700
- oeuf => 1143
+ euro => 2445370
+ pomme => 4658705
+ citron => 578150
+ oeuf => 37735
  farine => 100
- beurre => 334784
- lait => 297581
- jaune_oeuf => 936
- blanc_oeuf => 10923
- pate_sablee => 97800
+ beurre => 3193498
+ lait => 3157117
+ jaune_oeuf => 1665
+ blanc_oeuf => 88999
+ pate_sablee => 991800
  pate_feuilletee => 0
- tarte_citron => 9
- tarte_pomme => 2513
- flan => 1133
- boite => 27
+ tarte_citron => 2
+ tarte_pomme => 8591
+ flan => 429
+ boite => 41
 ```
-
